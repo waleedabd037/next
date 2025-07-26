@@ -1,14 +1,5 @@
 "use client";
 
-// *********************
-// Role of the component: Component that displays all orders on admin dashboard page
-// Name of the component: AdminOrders.tsx
-// Developer: Aleksandar Kuzmanovic
-// Version: 1.0
-// Component call: <AdminOrders />
-// Input parameters: No input parameters
-// Output: Table with all orders
-// *********************
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
@@ -47,66 +38,60 @@ const AdminOrders = () => {
             </tr>
           </thead>
           <tbody>
-            {/* row 1 */}
-            {orders &&
-              orders.map((order) => (
-                <tr key={order?.id}>
-                  <th>
-                    <label>
-                      <input type="checkbox" className="checkbox" />
-                    </label>
-                  </th>
+  {/* Check if orders exist and is an array */}
+  {Array.isArray(orders) && orders.length > 0 ? (
+    orders.map((order) => (
+      <tr key={order?.id}>
+        <th>
+          <label>
+            <input type="checkbox" className="checkbox" />
+          </label>
+        </th>
 
-                  <td>
-                    <div>
-                      <p className="font-bold">#{order?.id}</p>
-                    </div>
-                  </td>
+        <td>
+          <div>
+            <p className="font-bold">#{order?.id}</p>
+          </div>
+        </td>
 
-                  <td>
-                    <div className="flex items-center gap-5">
-                      <div>
-                        <div className="font-bold">{order?.name}</div>
-                        <div className="text-sm opacity-50">{order?.country}</div>
-                      </div>
-                    </div>
-                  </td>
+        <td>
+          <div className="flex items-center gap-5">
+            <div>
+              <div className="font-bold">{order?.name}</div>
+              <div className="text-sm opacity-50">{order?.country}</div>
+            </div>
+          </div>
+        </td>
 
-                  <td>
-                    <span className="badge badge-success text-white badge-sm">
-                      {order?.status}
-                    </span>
-                  </td>
+        <td>
+          <span className="badge badge-success text-white badge-sm">
+            {order?.status}
+          </span>
+        </td>
 
-                  <td>
-                    <p>${order?.total}</p>
-                  </td>
+        <td>
+          <p>${order?.total}</p>
+        </td>
 
-                  <td>{ new Date(Date.parse(order?.dateTime)).toDateString() }</td>
-                  <th>
-                    <Link
-                      href={`/admin/orders/${order?.id}`}
-                      className="btn btn-ghost btn-xs"
-                    >
-                      details
-                    </Link>
-                  </th>
-                </tr>
-              ))}
-          </tbody>
-          {/* foot */}
-          <tfoot>
-            <tr>
-              <th></th>
-              <th>Order ID</th>
-              <th>Name and country</th>
-              <th>Status</th>
-              <th>Subtotal</th>
-              <th>Date</th>
-              <th></th>
-            </tr>
-          </tfoot>
-        </table>
+        <td>{new Date(Date.parse(order?.dateTime)).toDateString()}</td>
+
+        <th>
+          <Link href={`/admin/orders/${order?.id}`} className="btn btn-ghost btn-xs">
+            details
+          </Link>
+        </th>
+      </tr>
+    ))
+  ) : (
+    <tr>
+ <td colSpan={6} className="text-left py-4 ml-8">
+      <strong>No orders available</strong>
+    </td>
+    </tr>
+  )}
+</tbody>
+{/* foot */}
+          </table>
       </div>
     </div>
   );

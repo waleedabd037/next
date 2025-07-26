@@ -11,8 +11,7 @@ import ShoppingAssistDropdown from "@/components/ShoppingAssistDropdown";
 const HeaderTop = () => {
     const { data: session }: any = useSession();
     const [isVehicleDropdownOpen, setIsVehicleDropdownOpen] = useState(false);
-    const [isShoppingAssistDropdownOpen, setIsShoppingAssistDropdownOpen] =
-        useState(false);
+    const [isShoppingAssistDropdownOpen, setIsShoppingAssistDropdownOpen] = useState(false);
 
     const handleLogout = () => {
         toast.success("Logout successful!");
@@ -42,31 +41,32 @@ const HeaderTop = () => {
         { name: "Option 3", description: "Description for option 3" },
     ];
 
+    // Toggle Vehicle Dropdown and close Shopping Assist if it's open
     const toggleVehicleDropdown = () => {
-        setIsVehicleDropdownOpen(!isVehicleDropdownOpen);
+        if (isShoppingAssistDropdownOpen) {
+            setIsShoppingAssistDropdownOpen(false); // Close Shopping Assist if it's open
+        }
+        setIsVehicleDropdownOpen(!isVehicleDropdownOpen); // Toggle Vehicle Dropdown
     };
 
-    const closeVehicleDropdown = () => {
-        setIsVehicleDropdownOpen(false);
+    // Toggle Shopping Assist Dropdown and close Vehicle if it's open
+    const toggleShoppingAssistDropdown = () => {
+        if (isVehicleDropdownOpen) {
+            setIsVehicleDropdownOpen(false); // Close Vehicle if it's open
+        }
+        setIsShoppingAssistDropdownOpen(!isShoppingAssistDropdownOpen); // Toggle Shopping Assist Dropdown
     };
 
+    // Define the handle functions for both dropdowns
     const handleVehicleClick = () => {
         setTimeout(() => {
-            closeVehicleDropdown();
+            setIsVehicleDropdownOpen(false);
         }, 1000);
-    };
-
-    const toggleShoppingAssistDropdown = () => {
-        setIsShoppingAssistDropdownOpen(!isShoppingAssistDropdownOpen);
-    };
-
-    const closeShoppingAssistDropdown = () => {
-        setIsShoppingAssistDropdownOpen(false);
     };
 
     const handleShoppingAssistClick = () => {
         setTimeout(() => {
-            closeShoppingAssistDropdown();
+            setIsShoppingAssistDropdownOpen(false);
         }, 1000);
     };
 
@@ -87,19 +87,20 @@ const HeaderTop = () => {
                             </Link>
                         </li>
                         <li
-                            className="flex items-center gap-x-2 font-semibold relative"
-                            onClick={toggleVehicleDropdown}
+                           // className="flex items-center gap-x-2 font-semibold relative"
+                            onClick={toggleVehicleDropdown} // Toggle vehicle dropdown
                         >
                             <a href="#" className="hover:text-cyan-400">
-                                Vehicles &#x25BC;
+                                Vehicles 
                             </a>
                         </li>
                         <li
-                            className="flex items-center gap-x-2 font-semibold relative"
-                            onClick={toggleShoppingAssistDropdown}
+                           // className="flex items-center gap-x-2 font-semibold relative"
+                            onClick={toggleShoppingAssistDropdown} // Toggle shopping assist dropdown
                         >
                             <a href="#" className="hover:text-cyan-400">
-                                Shopping Assist &#x25BC;
+                            Shopping Assist 
+
                             </a>
                         </li>
                         <li>
@@ -152,19 +153,18 @@ const HeaderTop = () => {
                     </ul>
                 </div>
             </div>
-
             <VehicleDropdown
                 categories={vehicleCategories}
                 isOpen={isVehicleDropdownOpen}
-                closeDropdown={closeVehicleDropdown}
-                handleVehicleClick={handleVehicleClick}
+                closeDropdown={() => setIsVehicleDropdownOpen(false)}
+                handleVehicleClick={handleVehicleClick} // Pass handleVehicleClick
             />
 
             <ShoppingAssistDropdown
                 options={shoppingAssistOptions}
                 isOpen={isShoppingAssistDropdownOpen}
-                closeDropdown={closeShoppingAssistDropdown}
-                handleOptionClick={handleShoppingAssistClick}
+                closeDropdown={() => setIsShoppingAssistDropdownOpen(false)}
+                handleOptionClick={handleShoppingAssistClick} // Pass handleShoppingAssistClick
             />
         </div>
     );

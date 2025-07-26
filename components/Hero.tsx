@@ -1,46 +1,47 @@
-// *********************
-// Role of the component: Classical hero component on home page
-// Name of the component: Hero.tsx
-// Developer: Aleksandar Kuzmanovic
-// Version: 1.0
-// Component call: <Hero />
-// Input parameters: no input parameters
-// Output: Classical hero component with two columns on desktop and one column on smaller devices
-// *********************
+"use client";
 
-import Image from "next/image";
-import React from "react";
+import React, { useRef } from 'react';
 
 const Hero = () => {
+  const videoRef = useRef(null);
+
   return (
-    <div className="h-[700px] w-full bg-blue-500 max-lg:h-[900px] max-md:h-[750px]">
-      <div className="grid grid-cols-3 items-center justify-items-center px-10 gap-x-10 max-w-screen-2xl mx-auto h-full max-lg:grid-cols-1 max-lg:py-10 max-lg:gap-y-10">
-        <div className="flex flex-col gap-y-5 max-lg:order-last col-span-2">
-          <h1 className="text-6xl text-white font-bold mb-3 max-xl:text-5xl max-md:text-4xl max-sm:text-3xl">
-            THE PRODUCT OF THE FUTURE
+    <div className="relative h-screen w-full overflow-hidden">
+      {/* Video Background */}
+      <video
+        ref={videoRef}
+        autoPlay
+        muted
+        loop
+        className="absolute top-0 left-0 w-full h-full object-cover"
+      >
+        <source src="/videoplayback.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/30" />
+
+      {/* Content */}
+      <div className="relative h-full flex flex-col justify-center px-8 max-w-screen-xl mx-auto">
+        <div className="space-y-6">
+          <h1 className="text-6xl font-bold text-white max-md:text-4xl">
+            2025 North American
+            <br />
+            Car of the Year™
+            <br />
+            Finalist
           </h1>
-          <p className="text-white max-sm:text-sm">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor modi
-            iure laudantium necessitatibus ab, voluptates vitae ullam. Officia
-            ipsam iusto beatae nesciunt, consequatur deserunt minima maiores
-            earum obcaecati. Optio, nam!
-          </p>
-          <div className="flex gap-x-1 max-lg:flex-col max-lg:gap-y-1">
-            <button className="bg-white text-blue-600 font-bold px-12 py-3 max-lg:text-xl max-sm:text-lg hover:bg-gray-100">
-              BUY NOW
+          
+          <div className="flex gap-4 mt-8">
+            <button className="bg-white px-8 py-3 font-medium hover:bg-white/90 transition-colors">
+              Meet K4
             </button>
-            <button className="bg-white text-blue-600 font-bold px-12 py-3 max-lg:text-xl max-sm:text-lg hover:bg-gray-100">
-              LEARN MORE
+            <button className="bg-transparent border border-white text-white px-8 py-3 font-medium hover:bg-white/10 transition-colors">
+              Build Yours
             </button>
           </div>
         </div>
-        <Image
-          src="/watch for banner.png"
-          width={400}
-          height={400}
-          alt="smart watch"
-          className="max-md:w-[300px] max-md:h-[300px] max-sm:h-[250px] max-sm:w-[250px] w-auto h-auto"
-        />
       </div>
     </div>
   );

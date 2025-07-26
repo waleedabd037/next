@@ -1,37 +1,79 @@
-// *********************
-// Role of the component: IntroducingSection with the text "Introducing Singitronic"
-// Name of the component: IntroducingSection.tsx
-// Developer: Aleksandar Kuzmanovic
-// Version: 1.0
-// Component call: <IntroducingSection />
-// Input parameters: no input parameters
-// Output: Section with the text "Introducing Singitronic" and button
-// *********************
-
-import Link from "next/link";
 import React from "react";
-
-const IntroducingSection = () => {
+import Link from "next/link";
+const VehicleShowcase = () => {
   return (
-    <div className="py-20 pt-24 bg-gradient-to-l from-white to-blue-600">
-      <div className="text-center flex flex-col gap-y-5 items-center">
-        <h2 className="text-white text-8xl font-extrabold text-center mb-2 max-md:text-6xl max-[480px]:text-4xl">
-          INTRODUCING <span className="text-black">SINGI</span><span className="text-blue-600">TRONIC</span>
-        </h2>
-        <div>
-          <p className="text-white text-center text-2xl font-semibold max-md:text-xl max-[480px]:text-base">
-            Buy the latest electronics.
-          </p>
-          <p className="text-white text-center text-2xl font-semibold max-md:text-xl max-[480px]:text-base">
-            The best electronics for tech lovers.
-          </p>
-          <Link href="/shop" className="block text-blue-600 bg-white font-bold px-12 py-3 text-xl hover:bg-gray-100 w-96 mt-2  max-md:text-lg max-md:w-72 max-[480px]:w-60 mx-auto">
-            SHOP NOW
-          </Link>
+    <div className="bg-neutral-950 py-20">
+      <div className="max-w-screen-2xl mx-auto px-6">
+        <div className="grid grid-cols-3 gap-8 max-lg:grid-cols-1">
+          {/* Sorento Card */}
+          <div className="relative overflow-hidden group">
+            <div className="aspect-[4/3] relative">
+              <img
+                src="/kia-card-tout-sorento.jpg"
+                alt="2025 Sorento X-Line"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+            </div>
+            <div className="absolute bottom-0 left-0 p-8 w-full">
+              <p className="text-white text-sm font-medium mb-2">COMMANDING COMFORT</p>
+              <h2 className="text-white text-3xl font-bold mb-4">2025 Sorento X-Line</h2>
+              <Link
+                href="/meet-sorento"
+                className="inline-block border border-white text-white px-8 py-2 hover:bg-white hover:text-black transition-colors"
+              >
+                Meet Sorento
+              </Link>
+            </div>
+          </div>
+
+          {/* Sportage Card */}
+          <div className="relative overflow-hidden group">
+            <div className="aspect-[4/3] relative">
+              <img
+                src="/kia_card-tout-sportage.jpg"
+                alt="2025 Sportage X-Line"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+            </div>
+            <div className="absolute bottom-0 left-0 p-8 w-full">
+              <p className="text-white text-sm font-medium mb-2">SAVVY, STYLISH, SPACIOUS</p>
+              <h2 className="text-white text-3xl font-bold mb-4">2025 Sportage X-Line</h2>
+              <Link
+                href="/meet-sportage"
+                className="inline-block border border-white text-white px-8 py-2 hover:bg-white hover:text-black transition-colors"
+              >
+                Meet Sportage
+              </Link>
+            </div>
+          </div>
+
+          {/* Telluride Card */}
+          <div className="relative overflow-hidden group">
+            <div className="aspect-[4/3] relative">
+              <img
+                src="/kia_card-tout-telluride.jpg"
+                alt="2025 Telluride X-Line"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+            </div>
+            <div className="absolute bottom-0 left-0 p-8 w-full">
+              <p className="text-white text-sm font-medium mb-2">LUXURY IN ALL 3 ROWS</p>
+              <h2 className="text-white text-3xl font-bold mb-4">2025 Telluride X-Line</h2>
+              <Link
+                href="/meet-telluride"
+                className="inline-block border border-white text-white px-8 py-2 hover:bg-white hover:text-black transition-colors"
+              >
+                Meet Telluride
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default IntroducingSection;
+export default VehicleShowcase;

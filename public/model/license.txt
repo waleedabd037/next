@@ -1,0 +1,11 @@
+Model Information:
+* title:	Carro KIA Sportage Xnova360
+* source:	https://sketchfab.com/3d-models/carro-kia-sportage-xnova360-212016fe1b8b47fda3d0c30e1a22af2f
+* author:	xnova360 (https://sketchfab.com/xnova360)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Carro KIA Sportage Xnova360" (https://sketchfab.com/3d-models/carro-kia-sportage-xnova360-212016fe1b8b47fda3d0c30e1a22af2f) by xnova360 (https://sketchfab.com/xnova360) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

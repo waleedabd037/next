@@ -5,16 +5,16 @@ import React, { useState } from "react";
 
 const FortePage = () => {
   const [selectedColor, setSelectedColor] = useState("Currant Red");
-  const [carImage, setCarImage] = useState("images/currant red.png");
+  const [carImage, setCarImage] = useState("/currant red.png");
   const [mainImage, setMainImage] = useState(
-    "images/kia_forte_2024_asset-carousel-1.jpg",
+    "/kia_forte_2024_asset-carousel-1.jpg",
   );
 
   const galleryImages = [
-    "images/kia_forte_2024_asset-carousel-1.jpg",
-    "images/kia_forte_2024_asset-carousel-2.jpg",
-    "images/kia_forte_2024_asset-carousel-6.jpg",
-    "images/kia_forte_2024_asset-carousel-8.jpg",
+    "/kia_forte_2024_asset-carousel-1.jpg",
+    "/kia_forte_2024_asset-carousel-2.jpg",
+    "/kia_forte_2024_asset-carousel-6.jpg",
+    "/kia_forte_2024_asset-carousel-8.jpg",
   ];
 
   const handleColorChange = (colorName: string, imagePath: string) => {
@@ -52,7 +52,7 @@ const FortePage = () => {
       {/* Hero Section */}
       <section className="relative h-screen w-full overflow-hidden">
         <img
-          src="images/kia_forte_2024_mep_dynamic_hero_v3_XXL.jpg"
+          src="/kia_forte_2024_mep_dynamic_hero_v3_XXL.jpg"
           alt="2024 Forte"
           className="absolute top-0 left-0 w-full h-full object-cover"
         />
@@ -179,7 +179,7 @@ const FortePage = () => {
         </div>
         <div className="w-full md:w-1/2 h-full flex justify-center items-center mb-8">
           <img
-            src="images/kia_forte_2024_media-text_GT-line_XXL.jpg"
+            src="/kia_forte_2024_media-text_GT-line_XXL.jpg"
             alt="GT-Line Car"
             className="object-contain w-[951.5px] h-[950.5px]"
           />
@@ -189,7 +189,7 @@ const FortePage = () => {
       {/* Banner Section */}
       <section className="w-full">
         <img
-          src="images/Screenshot 2024-12-04 184504.png"
+          src="/Screenshot 2024-12-04 184504.png"
           alt="Banner"
           className="w-full h-auto object-cover"
         />

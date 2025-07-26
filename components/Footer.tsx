@@ -1,108 +1,46 @@
-// *********************
-// Role of the component: Footer component
-// Name of the component: Footer.tsx
-// Developer: Aleksandar Kuzmanovic
-// Version: 1.0
-// Component call: <Footer />
-// Input parameters: no input parameters
-// Output: Footer component
-// *********************
-
-import { navigation } from "@/lib/utils";
-import Image from "next/image";
 import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="bg-white" aria-labelledby="footer-heading">
-      <div>
-        <h2 id="footer-heading" className="sr-only">
-          Footer
-        </h2>
-        <div className="mx-auto max-w-screen-2xl px-6 lg:px-8 pt-24 pb-14">
-          <div className="xl:grid xl:grid-cols-3 xl:gap-8">
-            <Image
-              src="/logo v1.png"
-              alt="Singitronic logo"
-              width={250}
-              height={250}
-              className="h-auto w-auto"
-            />
-            <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
-              <div className="md:grid md:grid-cols-2 md:gap-8">
-                <div>
-                  <h3 className="text-lg font-bold leading-6 text-blue-600">
-                    Sale
-                  </h3>
-                  <ul role="list" className="mt-6 space-y-4">
-                    {navigation.sale.map((item) => (
-                      <li key={item.name}>
-                        <a
-                          href={item.href}
-                          className="text-sm leading-6 text-black hover:text-gray-700"
-                        >
-                          {item.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="mt-10 md:mt-0">
-                  <h3 className="text-base font-bold leading-6 text-blue-600">
-                    About Us
-                  </h3>
-                  <ul role="list" className="mt-6 space-y-4">
-                    {navigation.about.map((item) => (
-                      <li key={item.name}>
-                        <a
-                          href={item.href}
-                          className="text-sm leading-6 text-black hover:text-gray-700"
-                        >
-                          {item.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-              <div className="md:grid md:grid-cols-2 md:gap-8">
-                <div>
-                  <h3 className="text-base font-bold leading-6 text-blue-600">
-                    Buying
-                  </h3>
-                  <ul role="list" className="mt-6 space-y-4">
-                    {navigation.buy.map((item) => (
-                      <li key={item.name}>
-                        <a
-                          href={item.href}
-                          className="text-sm leading-6 text-black hover:text-gray-700"
-                        >
-                          {item.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="mt-10 md:mt-0">
-                  <h3 className="text-base font-bold leading-6 text-blue-600">
-                    Support
-                  </h3>
-                  <ul role="list" className="mt-6 space-y-4">
-                    {navigation.help.map((item) => (
-                      <li key={item.name}>
-                        <a
-                          href={item.href}
-                          className="text-sm leading-6 text-black hover:text-gray-700"
-                        >
-                          {item.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+    <footer className="bg-black text-white" aria-labelledby="footer-heading">
+      <h2 id="footer-heading" className="sr-only">
+        Footer
+      </h2>
+      <div className="mx-auto max-w-screen-2xl px-6 lg:px-8 pt-12 pb-10">
+        <div className="xl:grid xl:grid-cols-2 xl:gap-12">
+          {/* Tagline Only */}
+          <div>
+            <p className="text-sm text-gray-400 mb-8">
+              Autogen — Driving innovation forward. Explore our lineup of premium cars and unbeatable offers.
+            </p>
+          </div>
+
+          {/* Navigation Links */}
+          <div className="grid grid-cols-2 gap-10 xl:mt-0">
+            <div>
+              <h3 className="text-base font-semibold text-white-400">Vehicles</h3>
+              <ul className="mt-4 space-y-3">
+                <li><a href="/models" className="text-sm hover:text-white">All Models</a></li>
+                <li><a href="/electric" className="text-sm hover:text-white">Electric</a></li>
+                <li><a href="/suv" className="text-sm hover:text-white">SUVs</a></li>
+                <li><a href="/sedans" className="text-sm hover:text-white">Sedans</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-base font-semibold text-white-400">Support</h3>
+              <ul className="mt-4 space-y-3">
+                <li><a href="/contact" className="text-sm hover:text-white">Contact Us</a></li>
+                <li><a href="/service-centers" className="text-sm hover:text-white">Service Centers</a></li>
+                <li><a href="/warranty" className="text-sm hover:text-white">Warranty</a></li>
+                <li><a href="/faqs" className="text-sm hover:text-white">FAQs</a></li>
+              </ul>
             </div>
           </div>
+        </div>
+
+        {/* Bottom line */}
+        <div className="mt-10 border-t border-gray-700 pt-6 text-center text-sm text-gray-500">
+          &copy; {new Date().getFullYear()} Autogen. All rights reserved.
         </div>
       </div>
     </footer>

@@ -5,8 +5,8 @@ import { useState } from 'react';
 const K4Page = () => {
     // State for the selected color
     const [selectedColor, setSelectedColor] = useState('Intesteller Grey');
-    const [carImage, setCarImage] = useState('images/intesteller grey.png');
-    const [mainImage, setMainImage] = useState('images/my25-k4-in-page-gallery_asset-carousel-2.jpg');
+    const [carImage, setCarImage] = useState('/intesteller grey.png');
+    const [mainImage, setMainImage] = useState('/my25-k4-in-page-gallery_asset-carousel-2.jpg');
 
     // Function to change the car color and update the image
     const changeColor = (colorName: string, imagePath: string) => {
@@ -85,10 +85,10 @@ const K4Page = () => {
                     </div>
                     <div className="w-1/3 flex flex-col items-center ml-10">
                         <div className="overflow-y-auto h-[500px] w-full space-y-4" id="gallery-container" onScroll={handleScroll}>
-                            <img src="images/my25-k4-in-page-gallery_asset-carousel-2.jpg" className="w-full object-cover rounded-md gallery-image" alt="Gallery Image 1" />
-                            <img src="images/my25-k4-in-page-gallery_asset-carousel-3.jpg" className="w-full object-cover rounded-md gallery-image" alt="Gallery Image 2" />
-                            <img src="images/my25-k4-in-page-gallery_asset-carousel-5.jpg" className="w-full object-cover rounded-md gallery-image" alt="Gallery Image 3" />
-                            <img src="images/my25-k4-in-page-gallery_asset-carousel-6.jpg" className="w-full object-cover rounded-md gallery-image" alt="Gallery Image 4" />
+                            <img src="/my25-k4-in-page-gallery_asset-carousel-2.jpg" className="w-full object-cover rounded-md gallery-image" alt="Gallery Image 1" />
+                            <img src="/my25-k4-in-page-gallery_asset-carousel-3.jpg" className="w-full object-cover rounded-md gallery-image" alt="Gallery Image 2" />
+                            <img src="/my25-k4-in-page-gallery_asset-carousel-5.jpg" className="w-full object-cover rounded-md gallery-image" alt="Gallery Image 3" />
+                            <img src="/my25-k4-in-page-gallery_asset-carousel-6.jpg" className="w-full object-cover rounded-md gallery-image" alt="Gallery Image 4" />
                         </div>
                     </div>
                 </div>
@@ -98,7 +98,7 @@ const K4Page = () => {
             <section className="bg-white py-12">
                 <div className="max-w-screen-xl mx-auto flex flex-col md:flex-row items-center">
                     <div className="md:w-1/2 flex justify-center">
-                        <img src="images/kia-k4-2025-mep-trim-highlight-gt-line-turbo_XXL.jpg" alt="Car Image" className="max-w-full h-auto" />
+                        <img src="/kia-k4-2025-mep-trim-highlight-gt-line-turbo_XXL.jpg" alt="Car Image" className="max-w-full h-auto" />
                     </div>
                     <div className="md:w-1/2 text-center md:text-left px-6">
                         <p className="text-sm uppercase font-semibold text-gray-500 mb-2">Upcoming GT-Line Turbo</p>
@@ -114,7 +114,7 @@ const K4Page = () => {
 
             {/* Banner Section */}
             <section className="w-full">
-                <img src="images/Screenshot 2024-12-04 184504.png" alt="Banner" className="w-full h-auto object-cover" />
+                <img src="/Screenshot 2024-12-04 184504.png" alt="Banner" className="w-full h-auto object-cover" />
             </section>
 
             {/* Performance Section */}

@@ -1,13 +1,3 @@
-// *********************
-// Role of the component: Buy Now button that adds product to the cart and redirects to the checkout page
-// Name of the component: BuyNowSingleProductBtn.tsx
-// Developer: Aleksandar Kuzmanovic
-// Version: 1.0
-// Component call: <BuyNowSingleProductBtn product={product} quantityCount={quantityCount} />
-// Input parameters: SingleProductBtnProps interface
-// Output: Button with buy now functionality
-// *********************
-
 "use client";
 import { useProductStore } from "@/app/_zustand/store";
 import React from "react";
@@ -33,10 +23,11 @@ const BuyNowSingleProductBtn = ({
     toast.success("Product added to the cart");
     router.push("/checkout");
   };
+
   return (
     <button
       onClick={handleAddToCart}
-      className="btn w-[200px] text-lg border border-blue-500 hover:border-blue-500 border-1 font-normal bg-blue-500 text-white hover:bg-white hover:scale-110 hover:text-blue-500 transition-all uppercase ease-in max-[500px]:w-full"
+      className="btn w-[200px] text-lg border border-gray-300 font-normal bg-white text-black hover:bg-gray-200 hover:text-black hover:border-black hover:scale-110 transition-all uppercase ease-in max-[500px]:w-full"
     >
       Buy Now
     </button>

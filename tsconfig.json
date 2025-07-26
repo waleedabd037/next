@@ -19,8 +19,17 @@
     ],
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "target": "es2015",
+    "downlevelIteration": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "utils/insertDemoData.js"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "utils/insertDemoData.js",
+    "src/types/global.d.ts"  // Include this line to include the global declaration file
+  ],
   "exclude": ["node_modules"]
 }

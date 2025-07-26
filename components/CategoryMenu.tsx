@@ -1,19 +1,8 @@
-// *********************
-// Role of the component: Category wrapper that will contain title and category items
-// Name of the component: CategoryMenu.tsx
-// Developer: Aleksandar Kuzmanovic
-// Version: 1.0
-// Component call: <CategoryMenu />
-// Input parameters: no input parameters
-// Output: section title and category items
-// *********************
-
 import React from "react";
 import CategoryItem from "./CategoryItem";
 import Image from "next/image";
 import { categoryMenuList } from "@/lib/utils";
 import Heading from "./Heading";
-
 const CategoryMenu = () => {
   return (
     <div className="py-10 bg-blue-500">
@@ -28,5 +17,4 @@ const CategoryMenu = () => {
     </div>
   );
 };
-
 export default CategoryMenu;

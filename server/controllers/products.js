@@ -248,7 +248,10 @@ async function getAllProductsOld(request, response) {
 
 async function createProduct(request, response) {
   try {
+    console.log("Received request body:", request.body);
+
     const {
+      id,
       slug,
       title,
       mainImage,
@@ -258,22 +261,37 @@ async function createProduct(request, response) {
       categoryId,
       inStock,
     } = request.body;
+
+    // 1. Check if the ID already exists
+    const existingProduct = await prisma.product.findUnique({
+      where: { id },
+    });
+
+    if (existingProduct) {
+      return response
+        .status(400)
+        .json({ error: "Product with this ID already exists" });
+    }
+
+    // 2. Create the product
     const product = await prisma.product.create({
       data: {
+        id, // now safe because we checked
         slug,
         title,
         mainImage,
         price,
-        rating: 5,
+        rating: 5, // default or calculated
         description,
         manufacturer,
         categoryId,
         inStock,
       },
     });
+
     return response.status(201).json(product);
   } catch (error) {
-    console.error("Error creating product:", error); // Dodajemo log za proveru
+    console.error("Error creating product:", error);
     return response.status(500).json({ error: "Error creating product" });
   }
 }
@@ -333,25 +351,46 @@ async function deleteProduct(request, response) {
   try {
     const { id } = request.params;
 
-        // Check for related records in wishlist table
-        const relatedOrderProductItems = await prisma.customer_order_product.findMany({
-          where: {
-            productId: id,
-          },
-        });
-        if(relatedOrderProductItems.length > 0){
-          return response.status(400).json({ error: 'Cannot delete product because of foreign key constraint. ' });
-        }
+    // Check for related records in userInteractions table
+    const relatedUserInteractions = await prisma.userInteraction.findMany({
+      where: {
+        productId: id,
+      },
+    });
+    
+    // If there are related user interactions, delete them first
+    if (relatedUserInteractions.length > 0) {
+      await prisma.userInteraction.deleteMany({
+        where: {
+          productId: id,
+        },
+      });
+    }
 
+    // Check for related records in customer_order_product table (e.g., orders)
+    const relatedOrderProductItems = await prisma.customer_order_product.findMany({
+      where: {
+        productId: id,
+      },
+    });
+
+    // If there are any related order items, return an error
+    if (relatedOrderProductItems.length > 0) {
+      return response.status(400).json({ error: 'Cannot delete product because of foreign key constraint.' });
+    }
+
+    // Finally, delete the product
     await prisma.product.delete({
       where: {
         id,
       },
     });
+
+    // Send a success response
     return response.status(204).send();
   } catch (error) {
     console.log(error);
-    return response.status(500).json({ error: "Error deleting product" });
+    return response.status(500).json({ error: 'Error deleting product' });
   }
 }
 

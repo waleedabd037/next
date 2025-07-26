@@ -1,13 +1,3 @@
-// *********************
-// Role of the component: Product table component on admin dashboard page
-// Name of the component: DashboardProductTable.tsx
-// Developer: Aleksandar Kuzmanovic
-// Version: 1.0
-// Component call: <DashboardProductTable />
-// Input parameters: no input parameters
-// Output: products table
-// *********************
-
 "use client";
 import { nanoid } from "nanoid";
 import Image from "next/image";
@@ -19,7 +9,9 @@ const DashboardProductTable = () => {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/products?mode=admin", {cache: "no-store"})
+    fetch("http://localhost:3001/api/products?mode=admin", {
+      cache: "no-store",
+    })
       .then((res) => {
         return res.json();
       })
@@ -31,20 +23,19 @@ const DashboardProductTable = () => {
   return (
     <div className="w-full">
       <h1 className="text-3xl font-semibold text-center mb-5">All products</h1>
-      <div className="flex justify-end mb-5">
-        <Link href="/admin/products/new">
-          <CustomButton
-            buttonType="button"
-            customWidth="110px"
-            paddingX={10}
-            paddingY={5}
-            textSize="base"
-            text="Add new product"
-          />
-        </Link>
-      </div>
+      <div className="ml-10">
+  <Link href="/admin/products/new">
+    <button
+      type="button"
+      className="px-10 py-5 text-base bg-gradient-to-b from-gray-800 via-gray-900 to-black text-white rounded hover:bg-gradient-to-b hover:from-gray-700 hover:via-gray-800 hover:to-gray-900"
+    >
+      Add new product
+    </button>
+  </Link>
+</div>
 
-      <div className="xl:ml-5 w-full max-xl:mt-5 overflow-auto w-full h-[80vh]">
+
+      <div className="xl:ml-5 max-xl:mt-5 overflow-auto h-[80vh]">
         <table className="table table-md table-pin-cols">
           {/* head */}
           <thead>
@@ -71,19 +62,24 @@ const DashboardProductTable = () => {
                     </label>
                   </th>
 
-                  <td>
+                  <td className="min-w-[220px]">
                     <div className="flex items-center gap-3">
                       <div className="avatar">
-                        <div className="mask mask-squircle w-12 h-12">
+                        <div className="w-12 h-12 flex items-center justify-center border rounded">
                           <Image
-                            width={48}
+                            src={
+                              product?.mainImage
+                                ? `/${product?.mainImage}`
+                                : "/product_placeholder.jpg"
+                            }
+                            alt="Product"
+                            width={55}
                             height={48}
-                            src={product?.mainImage ? `/${product?.mainImage}` : "/product_placeholder.jpg"}
-                            alt="Avatar Tailwind CSS Component"
-                            className="w-auto h-auto"
+                            className="object-contain w-full h-full"
                           />
                         </div>
                       </div>
+
                       <div>
                         <div className="font-bold">{product?.title}</div>
                         <div className="text-sm opacity-50">
@@ -94,12 +90,15 @@ const DashboardProductTable = () => {
                   </td>
 
                   <td>
-                    { product?.inStock ? (<span className="badge badge-success text-white badge-sm">
-                      In stock
-                    </span>) : (<span className="badge badge-error text-white badge-sm">
-                      Out of stock
-                    </span>) }
-                    
+                    {product?.inStock ? (
+                      <span className="badge badge-success text-white badge-sm">
+                        In stock
+                      </span>
+                    ) : (
+                      <span className="badge badge-error text-white badge-sm">
+                        Out of stock
+                      </span>
+                    )}
                   </td>
                   <td>${product?.price}</td>
                   <th>

@@ -1,7 +1,6 @@
 import {
   StockAvailabillity,
   UrgencyText,
-  SingleProductRating,
   ProductTabs,
   SingleProductDynamicFields,
   AddToWishlistBtn,
@@ -37,17 +36,21 @@ const SingleProductPage = async ({ params }: SingleProductPageProps) => {
   }
 
   return (
-    <div className="bg-white">
+    <div className="w-full bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700">
       <div className="max-w-screen-2xl mx-auto">
         <div className="flex justify-center gap-x-16 pt-10 max-lg:flex-col items-center gap-y-5 px-5">
-          <div>
-            <Image
-              src={product?.mainImage ? `/${product?.mainImage}` : "/product_placeholder.jpg"}
-              width={500}
-              height={500}
-              alt="main image"
-              className="w-auto h-auto"
-            />
+          <div className="w-[70%] max-lg:w-full">
+            {/* Centered Image */}
+            <div className="flex justify-center">
+              <Image
+                src={product?.mainImage ? `/${product?.mainImage}` : "/product_placeholder.jpg"}
+                width={1000}
+                height={500}
+                alt="main image"
+                className="w-auto h-auto transform scale-[2.2]"
+              />
+            </div>
+  
             <div className="flex justify-around mt-5 flex-wrap gap-y-1 max-[500px]:justify-center max-[500px]:gap-x-1">
               {images?.map((imageItem: ImageItem) => (
                 <Image
@@ -55,31 +58,21 @@ const SingleProductPage = async ({ params }: SingleProductPageProps) => {
                   src={`/${imageItem.image}`}
                   width={100}
                   height={100}
-                  alt="laptop image"
+                  alt="image"
                   className="w-auto h-auto"
                 />
               ))}
             </div>
           </div>
-          <div className="flex flex-col gap-y-7 text-black max-[500px]:text-center">
-            <SingleProductRating rating={product?.rating} />
+  
+          <div className="flex flex-col gap-y-7 text-white max-[500px]:text-center">
             <h1 className="text-3xl">{product?.title}</h1>
             <p className="text-xl font-semibold">${product?.price}</p>
             <StockAvailabillity stock={94} inStock={product?.inStock} />
             <SingleProductDynamicFields product={product} />
             <div className="flex flex-col gap-y-2 max-[500px]:items-center">
               <AddToWishlistBtn product={product} slug={params.productSlug} />
-              <p className="text-lg">
-                SKU: <span className="ml-1">abccd-18</span>
-              </p>
-              <div className="text-lg flex gap-x-2">
-                <span>Share:</span>
-                <div className="flex items-center gap-x-1 text-2xl">
-                  <FaSquareFacebook />
-                  <FaSquareXTwitter />
-                  <FaSquarePinterest />
-                </div>
-              </div>
+  
               <div className="flex gap-x-2">
                 <Image
                   src="/visa.svg"
@@ -99,7 +92,7 @@ const SingleProductPage = async ({ params }: SingleProductPageProps) => {
                   src="/ae.svg"
                   width={50}
                   height={50}
-                  alt="americal express icon"
+                  alt="american express icon"
                   className="h-auto w-auto"
                 />
                 <Image
@@ -127,12 +120,12 @@ const SingleProductPage = async ({ params }: SingleProductPageProps) => {
             </div>
           </div>
         </div>
+  
         <div className="py-16">
-          <ProductTabs product={product} />
+          {/* Extra content or padding area */}
         </div>
       </div>
     </div>
-  );
-};
-
+  )};
+  
 export default SingleProductPage;

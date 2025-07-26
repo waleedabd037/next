@@ -1,15 +1,12 @@
-// helper function for converting URL category name to friendly and more readable name
-// For example "smart-watches" after this function will be "smart watches"
-const formatCategoryName = (categoryName: string) => {
-  const categoryNameArray = categoryName.split("-");
-  return categoryNameArray.join(" ");
+// categoryFormating.ts
+
+export const formatCategoryName = (categoryName: string | undefined) => {
+  if (!categoryName) {
+    return ""; // Return an empty string or a default value if categoryName is undefined or null
+  }
+  return categoryName.split("-").join(" ");
 };
 
-// helper function for converting category name to URL category name
-// For example "smart watches" after this function will be "smart-watches"
-const convertCategoryNameToURLFriendly = (categoryName: string) => {
-  const categoryNameArray = categoryName.split(" ");
-  return categoryNameArray.join("-");
+export const convertCategoryNameToURLFriendly = (categoryName: string) => {
+  return categoryName.trim().toLowerCase().replace(/\s+/g, "-");
 };
-
-export { formatCategoryName, convertCategoryNameToURLFriendly };

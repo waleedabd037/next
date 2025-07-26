@@ -1,12 +1,3 @@
-// *********************
-// Role of the component: Wishlist item component for wishlist page
-// Name of the component: WishItem.tsx
-// Developer: Aleksandar Kuzmanovic
-// Version: 1.0
-// Component call: <WishItem id={id} title={title} price={price} image={image} slug={slug} stockAvailabillity={stockAvailabillity} />
-// Input parameters: ProductInWishlist interface
-// Output: single wishlist item on the wishlist page
-// *********************
 
 "use client";
 import { useWishlistStore } from "@/app/_zustand/wishlistStore";
@@ -16,7 +7,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaHeartCrack } from "react-icons/fa6";
-import { deleteWishItem } from "@/app/actions";
+//import { deleteWishItem } from "@/app/(home)/actions";
 import { useSession } from "next-auth/react";
 
 interface wishItemStateTrackers {

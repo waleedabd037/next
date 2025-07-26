@@ -47,17 +47,36 @@ async function updateCategory(request, response) {
 }
 
 async function deleteCategory(request, response) {
+  const { id } = request.params;
   try {
-    const { id } = request.params;
-    await prisma.category.delete({
+    // Log to ensure the id is correct
+    console.log(`Attempting to delete category with ID: ${id}`);
+
+    // First, delete or update the related UserInteractions for this category
+    const deletedInteractions = await prisma.userInteraction.deleteMany({
       where: {
-        id: id,
+        product: {
+          categoryId: id,
+        },
       },
     });
-    return response.status(204).send();
+
+    // Log the number of deleted interactions
+    console.log(`Deleted ${deletedInteractions.count} user interactions`);
+
+    // Now delete the Category
+    const deletedCategory = await prisma.category.delete({
+      where: { id },
+    });
+
+    // Log category deletion
+    console.log('Category deleted successfully:', deletedCategory);
+
+    response.status(200).send('Category deleted successfully');
   } catch (error) {
-    console.log(error);
-    return response.status(500).json({ error: "Error deleting category" });
+    // Log the actual error message
+    console.error('Error deleting category:', error);
+    response.status(500).send(`Error deleting category: ${error.message}`);
   }
 }
 
