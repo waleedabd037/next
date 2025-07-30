@@ -68,35 +68,48 @@ const ProductItem = ({
   };
 
   return (
-    <div className="flex flex-col items-center gap-y-2">
-      <Link href={`/product/${product.slug}`}>
-        <Image
-          src={product.mainImage ? `/${product.mainImage}` : "/product_placeholder.jpg"}
-          width="0"
-          height="0"
-          sizes="100vw"
-          className="w-auto h-[300px]"
-          alt={product.title}
-          onClick={() => handleUserInteraction("click")} // Track when the product is clicked
-        />
-      </Link>
-      <Link
-        href={`/product/${product.slug}`}
-        className={color === "black" ? "text-xl text-black font-normal mt-2 uppercase" : "text-xl text-white font-normal mt-2 uppercase"}
-        onClick={() => handleUserInteraction("click")} // Track when the product link is clicked
-      >
-        {product.title}
-      </Link>
-      <p className={color === "black" ? "text-lg text-black font-semibold" : "text-lg text-white font-semibold"}>${product.price}</p>
+<div className="flex flex-col items-center gap-y-2">
+  <Link href={`/product/${product.slug}`}>
+    <Image
+      src={product.mainImage}
+      width="0"
+      height="0"
+      sizes="100vw"
+      className="w-auto h-[300px]"
+      alt={product.title}
+  //    onClick={() => handleUserInteraction("click")}
+    />
+  </Link>
+  <Link
+    href={`/product/${product.slug}`}
+    className={
+      color === "black"
+        ? "text-xl text-black font-normal mt-2 uppercase"
+        : "text-xl text-white font-normal mt-2 uppercase"
+    }
+  //  onClick={() => handleUserInteraction("click")}
+  >
+    {product.title}
+  </Link>
+  <p
+    className={
+      color === "black"
+        ? "text-lg text-black font-semibold"
+        : "text-lg text-white font-semibold"
+    }
+  >
+    ${product.price}
+  </p>
 
-      <Link
-        href={`/product/${product.slug}`}
-        className="block flex justify-center items-center w-1/2 uppercase bg-white px-0 py-2 text-base border border-black border-gray-300 font-bold text-black shadow-sm hover:bg-black hover:bg-gray-100 focus:outline-none focus:ring-2"
-        onClick={() => handleUserInteraction("view")} // Track when the "View product" button is clicked
-      >
-        <p>Buy Product</p>
-      </Link>
-    </div>
+  <Link
+    href={`/product/${product.slug}`}
+    className="block flex justify-center items-center w-1/2 uppercase bg-white px-0 py-2 text-base border border-black border-gray-300 font-bold text-black shadow-sm hover:bg-black hover:bg-gray-100 focus:outline-none focus:ring-2"
+  //  onClick={() => handleUserInteraction("view")}
+  >
+    <p>Buy Product</p>
+  </Link>
+</div>
+
   );
 };
 

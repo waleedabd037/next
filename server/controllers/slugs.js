@@ -16,7 +16,9 @@ async function getProductBySlug(request, response) {
   if (!foundProduct) {
     return response.status(404).json({ error: "Product not found" });
   }
+  
   return response.status(200).json(foundProduct);
+    console.log("your mess " + foundProduct.mainImage);
 }
 
 module.exports = { getProductBySlug };

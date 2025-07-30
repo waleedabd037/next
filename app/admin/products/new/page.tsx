@@ -1,114 +1,122 @@
-"use client";
-import { DashboardSidebar } from "@/components";
-import { convertCategoryNameToURLFriendly as convertSlugToURLFriendly } from "@/utils/categoryFormating";
-import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+'use client';
+import { DashboardSidebar } from '@/components';
+import { convertCategoryNameToURLFriendly as convertSlugToURLFriendly } from '@/utils/categoryFormating';
+import { supabase } from '@/utils/supabase';
+import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 const AddNewProduct = () => {
   const [product, setProduct] = useState<{
-    id?: string; // <-- add this
-  title: string;
-  price: number;
-  manufacturer: string;
-  inStock: number;
-  mainImage: string;
-  description: string;
-  slug: string;
-  categoryId: string;
-}>({
-  id: "", // <-- initialize
-  title: "",
-  price: 0,
-  manufacturer: "",
-  inStock: 1,
-  mainImage: "",
-  description: "",
-  slug: "",
-  categoryId: "",
-});
+    id?: string;
+    title: string;
+    price: number;
+    manufacturer: string;
+    inStock: number;
+    mainImage: string;
+    description: string;
+    slug: string;
+    categoryId: string;
+  }>({
+    id: '',
+    title: '',
+    price: 0,
+    manufacturer: '',
+    inStock: 1,
+    mainImage: '',
+    description: '',
+    slug: '',
+    categoryId: '',
+  });
+
   const [categories, setCategories] = useState<Category[]>([]);
 
   const addProduct = async () => {
     if (
-      product.title === "" ||
-      product.manufacturer === "" ||
-      product.description == "" ||
-      product.slug === ""
+      product.title === '' ||
+      product.manufacturer === '' ||
+      product.description === '' ||
+      product.slug === '' ||
+      product.mainImage === ''
     ) {
-      toast.error("Please enter values in input fields");
+      toast.error('Please enter all required fields');
       return;
     }
 
     const requestOptions: any = {
-      method: "post",
-      headers: { "Content-Type": "application/json" },
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(product),
     };
+
     fetch(`http://localhost:3001/api/products`, requestOptions)
       .then((response) => {
         if (response.status === 201) {
           return response.json();
         } else {
-          throw Error("There was an error while creating product");
+          throw Error('There was an error while creating product');
         }
       })
       .then((data) => {
-        toast.success("Product added successfully");
+        toast.success('Product added successfully');
         setProduct({
-          id: "",
-          title: "",
+          id: '',
+          title: '',
           price: 0,
-          manufacturer: "",
+          manufacturer: '',
           inStock: 1,
-          mainImage: "",
-          description: "",
-          slug: "",
-          categoryId: "",
+          mainImage: '',
+          description: '',
+          slug: '',
+          categoryId: categories[0]?.id || '',
         });
       })
-      .catch((error) => {
-        toast.error("There was an error while creating product");
+      .catch(() => {
+        toast.error('There was an error while creating product');
       });
   };
 
-  const uploadFile = async (file: any) => {
-    const formData = new FormData();
-    formData.append("uploadedFile", file);
+  const uploadFile = async (file: File) => {
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Date.now()}.${fileExt}`;
 
-    try {
-      const response = await fetch("http://localhost:3001/api/main-image", {
-        method: "POST",
-        body: formData,
+    const { data, error } = await supabase.storage
+      .from('product-images')
+      .upload(fileName, file, {
+        cacheControl: '3600',
+        upsert: false,
       });
 
-      if (response.ok) {
-        const data = await response.json();
-      } else {
-        console.error("File upload unsuccessfull");
-      }
-    } catch (error) {
-      console.error("Error happend while sending request:", error);
+    if (error) {
+      console.error('Upload failed:', error.message);
+      toast.error('Failed to upload image');
+      return;
     }
+
+    const { data: publicUrlData } = supabase
+  .storage
+  .from('product-images')
+  .getPublicUrl(fileName);
+
+if (!publicUrlData?.publicUrl) {
+  toast.error('Could not retrieve image URL');
+  return;
+}
+
+setProduct((prev) => ({ ...prev, mainImage: publicUrlData.publicUrl }));
+
+    toast.success('Image uploaded');
   };
 
   const fetchCategories = async () => {
     fetch(`http://localhost:3001/api/categories`)
-      .then((res) => {
-        return res.json();
-      })
+      .then((res) => res.json())
       .then((data) => {
         setCategories(data);
-        setProduct({
-          title: "",
-          price: 0,
-          manufacturer: "",
-          inStock: 1,
-          mainImage: "",
-          description: "",
-          slug: "",
-          categoryId: data[0]?.id,
-        });
+        setProduct((prev) => ({
+          ...prev,
+          categoryId: data[0]?.id || '',
+        }));
       });
   };
 
@@ -121,6 +129,8 @@ const AddNewProduct = () => {
       <DashboardSidebar />
       <div className="flex flex-col gap-y-7 xl:ml-5 max-xl:px-5 w-full">
         <h1 className="text-3xl font-semibold">Add new product</h1>
+
+        {/* Title */}
         <div>
           <label className="form-control w-full max-w-xs">
             <div className="label">
@@ -129,7 +139,7 @@ const AddNewProduct = () => {
             <input
               type="text"
               className="input input-bordered w-full max-w-xs"
-              value={product?.title}
+              value={product.title}
               onChange={(e) =>
                 setProduct({ ...product, title: e.target.value })
               }
@@ -137,6 +147,7 @@ const AddNewProduct = () => {
           </label>
         </div>
 
+        {/* Slug */}
         <div>
           <label className="form-control w-full max-w-xs">
             <div className="label">
@@ -145,7 +156,7 @@ const AddNewProduct = () => {
             <input
               type="text"
               className="input input-bordered w-full max-w-xs"
-              value={convertSlugToURLFriendly(product?.slug)}
+              value={convertSlugToURLFriendly(product.slug)}
               onChange={(e) =>
                 setProduct({
                   ...product,
@@ -156,6 +167,7 @@ const AddNewProduct = () => {
           </label>
         </div>
 
+        {/* Category */}
         <div>
           <label className="form-control w-full max-w-xs">
             <div className="label">
@@ -163,37 +175,38 @@ const AddNewProduct = () => {
             </div>
             <select
               className="select select-bordered"
-              value={product?.categoryId}
+              value={product.categoryId}
               onChange={(e) =>
                 setProduct({ ...product, categoryId: e.target.value })
               }
             >
-              {categories &&
-                categories.map((category: any) => (
-                  <option key={category?.id} value={category?.id}>
-                    {category?.name}
-                  </option>
-                ))}
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
             </select>
           </label>
         </div>
-     
-<div>
-  <label className="form-control w-full max-w-xs">
-    <div className="label">
-      <span className="label-text">Product ID (custom):</span>
-    </div>
-    <input
-      type="text"
-      className="input input-bordered w-full max-w-xs"
-      value={product?.id || ""}
-      onChange={(e) => setProduct({ ...product, id: e.target.value })}
-    />
-    
-  </label>
-</div>
 
+        {/* Custom ID */}
+        <div>
+          <label className="form-control w-full max-w-xs">
+            <div className="label">
+              <span className="label-text">Product ID (custom):</span>
+            </div>
+            <input
+              type="text"
+              className="input input-bordered w-full max-w-xs"
+              value={product.id || ''}
+              onChange={(e) =>
+                setProduct({ ...product, id: e.target.value })
+              }
+            />
+          </label>
+        </div>
 
+        {/* Price */}
         <div>
           <label className="form-control w-full max-w-xs">
             <div className="label">
@@ -202,13 +215,15 @@ const AddNewProduct = () => {
             <input
               type="text"
               className="input input-bordered w-full max-w-xs"
-              value={product?.price}
+              value={product.price}
               onChange={(e) =>
                 setProduct({ ...product, price: Number(e.target.value) })
               }
             />
           </label>
         </div>
+
+        {/* Manufacturer */}
         <div>
           <label className="form-control w-full max-w-xs">
             <div className="label">
@@ -217,13 +232,15 @@ const AddNewProduct = () => {
             <input
               type="text"
               className="input input-bordered w-full max-w-xs"
-              value={product?.manufacturer}
+              value={product.manufacturer}
               onChange={(e) =>
                 setProduct({ ...product, manufacturer: e.target.value })
               }
             />
           </label>
         </div>
+
+        {/* In Stock */}
         <div>
           <label className="form-control w-full max-w-xs">
             <div className="label">
@@ -231,7 +248,7 @@ const AddNewProduct = () => {
             </div>
             <select
               className="select select-bordered"
-              value={product?.inStock}
+              value={product.inStock}
               onChange={(e) =>
                 setProduct({ ...product, inStock: Number(e.target.value) })
               }
@@ -241,25 +258,31 @@ const AddNewProduct = () => {
             </select>
           </label>
         </div>
+
+        {/* Upload image */}
         <div>
           <input
             type="file"
             className="file-input file-input-bordered file-input-lg w-full max-w-sm"
-            onChange={(e: any) => {
-              uploadFile(e.target.files[0]);
-              setProduct({ ...product, mainImage: e.target.files[0].name });
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) {
+                uploadFile(file);
+              }
             }}
           />
-          {product?.mainImage && (
+          {product.mainImage && (
             <Image
-              src={`/` + product?.mainImage}
-              alt={product?.title}
-              className="w-auto h-auto"
+              src={product.mainImage}
+              alt={product.title}
+              className="w-auto h-auto mt-4"
               width={100}
               height={100}
             />
           )}
         </div>
+
+        {/* Description */}
         <div>
           <label className="form-control">
             <div className="label">
@@ -267,23 +290,24 @@ const AddNewProduct = () => {
             </div>
             <textarea
               className="textarea textarea-bordered h-24"
-              value={product?.description}
+              value={product.description}
               onChange={(e) =>
                 setProduct({ ...product, description: e.target.value })
               }
             ></textarea>
           </label>
         </div>
-        <div className="flex gap-x-2 mb-4">
-  <button
-    onClick={addProduct}
-    type="button"
-    className="uppercase bg-black px-10 py-5 text-lg border border-black border-gray-300 font-bold text-white shadow-sm hover:bg-blue-600 hover:text-white focus:outline-none focus:ring-2"
-  >
-    Add product
-  </button>
-</div>
 
+        {/* Submit button */}
+        <div className="flex gap-x-2 mb-4">
+          <button
+            onClick={addProduct}
+            type="button"
+            className="uppercase bg-black px-10 py-5 text-lg border border-black border-gray-300 font-bold text-white shadow-sm hover:bg-blue-600 hover:text-white focus:outline-none focus:ring-2"
+          >
+            Add product
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -67,11 +67,9 @@ const DashboardProductTable = () => {
                       <div className="avatar">
                         <div className="w-12 h-12 flex items-center justify-center border rounded">
                           <Image
-                            src={
-                              product?.mainImage
-                                ? `/${product?.mainImage}`
-                                : "/product_placeholder.jpg"
-                            }
+                            src=
+                              {product.mainImage}
+                               
                             alt="Product"
                             width={55}
                             height={48}

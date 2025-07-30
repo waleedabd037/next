@@ -4,20 +4,25 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'placehold.co',
-        port: "",
+        port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'gtvytcgrhrelhbwogyoe.supabase.co',
+        port: '',
       },
     ],
   },
   experimental: {
-    serverComponentsExternalPackages: ["pdf-parse"],
+    serverComponentsExternalPackages: ['pdf-parse'],
   },
   webpack: (config) => {
     config.module.rules.push({
       test: /\.gltf$/,
-      type: 'asset/resource'
+      type: 'asset/resource',
     });
     return config;
-  }
+  },
 };
 
 export default nextConfig;

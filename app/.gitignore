@@ -1,0 +1,15 @@
+# Ignore backend folder
+/server/
+
+# Node modules and build output
+node_modules/
+.next/
+out/
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# System files
+.DS_Store

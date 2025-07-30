@@ -11,7 +11,7 @@ const orderRouter = require("./routes/customer_orders");
 const slugRouter = require("./routes/slugs");
 const orderProductRouter = require('./routes/customer_order_product');
 const wishlistRouter = require('./routes/wishlist');
-const predictRouter = require('./routes/model');
+//const predictRouter = require('./routes/model');
 const cron = require("node-cron");
 const { fetchTrendingProduct } = require('./controllers/trendingController'); // Import the cron job function
 
@@ -40,7 +40,7 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-app.use(fileUpload());
+app.use(fileUpload()); 
 app.use((req, res, next) => {
   console.log(`Request made to: ${req.url}`);
   next();
@@ -63,7 +63,7 @@ app.use("/api/orders", orderRouter);
 app.use('/api/order-product', orderProductRouter);
 app.use("/api/slugs", slugRouter);
 app.use("/api/wishlist", wishlistRouter);
-app.use("/api/model", predictRouter);
+//app.use("/api/model", predictRouter);
 //fetchTrendingProduct();
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
