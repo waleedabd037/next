@@ -1,5 +1,5 @@
 import { Session, getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/authOptions";
 import SessionProvider from "@/utils/SessionProvider";
 import { Inter } from "next/font/google";
 import { Footer, Header } from "@/components";
