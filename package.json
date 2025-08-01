@@ -32,7 +32,6 @@
     "next-auth": "^4.24.6",
     "nock": "^13.5.6",
     "node-cron": "^3.0.3",
-    
     "odoo-xmlrpc": "^1.0.8",
     "pdf-parse": "^1.1.1",
     "react": "^18.3.1",
