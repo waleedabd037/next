@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { apiBaseUrl } from "@/lib/constants"; // ✅ Import backend base URL
 
 const ProductImagesBanner: React.FC = () => {
   const { data: session } = useSession();
@@ -19,7 +20,7 @@ const ProductImagesBanner: React.FC = () => {
       }
 
       try {
-        const modelResponse = await fetch("http://localhost:3001/api/model", {
+        const modelResponse = await fetch(`${apiBaseUrl}/api/model`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -33,7 +34,7 @@ const ProductImagesBanner: React.FC = () => {
         }
 
         const modelData = await modelResponse.json();
-        setImages(modelData.products); // Now contains title, slug, and image
+        setImages(modelData.products);
       } catch (error) {
         console.error("Error fetching product data:", error);
       } finally {
@@ -54,19 +55,16 @@ const ProductImagesBanner: React.FC = () => {
         <div className="flex justify-center gap-4 items-center">
           {images.map((product, index) => (
             <div key={index} className="cursor-pointer text-center">
-              {/* Link image to product slug */}
               <Link href={`/product/${product.slug}`}>
-              <Image
-  src={product.mainImage ? `/${product.mainImage}` : "/product_placeholder.jpg"}
-  width={150}
-  height={150}
-  sizes="100vw"
-  className="object-contain transform scale-150"  // Scale added for permanent zoom
-  alt={product.title}
-/>
-
+                <Image
+                  src={product.mainImage ? `/${product.mainImage}` : "/product_placeholder.jpg"}
+                  width={150}
+                  height={150}
+                  sizes="100vw"
+                  className="object-contain transform scale-150"
+                  alt={product.title}
+                />
               </Link>
-              {/* Display the product title */}
               <Link href={`/product/${product.slug}`}>
                 <p className="mt-2 text-sm font-medium text-gray-300 hover:text-blue-500">
                   {product.title}

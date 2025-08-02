@@ -4,17 +4,16 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import CustomButton from "./CustomButton";
+import { apiBaseUrl } from "@/lib/constants"; // ✅ Import added
 
 const DashboardProductTable = () => {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/products?mode=admin", {
+    fetch(`${apiBaseUrl}/api/products?mode=admin`, {
       cache: "no-store",
     })
-      .then((res) => {
-        return res.json();
-      })
+      .then((res) => res.json())
       .then((data) => {
         setProducts(data);
       });
@@ -24,20 +23,18 @@ const DashboardProductTable = () => {
     <div className="w-full">
       <h1 className="text-3xl font-semibold text-center mb-5">All products</h1>
       <div className="ml-10">
-  <Link href="/admin/products/new">
-    <button
-      type="button"
-      className="px-10 py-5 text-base bg-gradient-to-b from-gray-800 via-gray-900 to-black text-white rounded hover:bg-gradient-to-b hover:from-gray-700 hover:via-gray-800 hover:to-gray-900"
-    >
-      Add new product
-    </button>
-  </Link>
-</div>
-
+        <Link href="/admin/products/new">
+          <button
+            type="button"
+            className="px-10 py-5 text-base bg-gradient-to-b from-gray-800 via-gray-900 to-black text-white rounded hover:bg-gradient-to-b hover:from-gray-700 hover:via-gray-800 hover:to-gray-900"
+          >
+            Add new product
+          </button>
+        </Link>
+      </div>
 
       <div className="xl:ml-5 max-xl:mt-5 overflow-auto h-[80vh]">
         <table className="table table-md table-pin-cols">
-          {/* head */}
           <thead>
             <tr>
               <th>
@@ -52,7 +49,6 @@ const DashboardProductTable = () => {
             </tr>
           </thead>
           <tbody>
-            {/* row 1 */}
             {products &&
               products.map((product) => (
                 <tr key={nanoid()}>
@@ -67,9 +63,7 @@ const DashboardProductTable = () => {
                       <div className="avatar">
                         <div className="w-12 h-12 flex items-center justify-center border rounded">
                           <Image
-                            src=
-                              {product.mainImage}
-                               
+                            src={product.mainImage}
                             alt="Product"
                             width={55}
                             height={48}
@@ -110,7 +104,6 @@ const DashboardProductTable = () => {
                 </tr>
               ))}
           </tbody>
-          {/* foot */}
           <tfoot>
             <tr>
               <th></th>

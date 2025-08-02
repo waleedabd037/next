@@ -1,9 +1,10 @@
-"use client"
+"use client";
 import React, { useState } from "react";
+import { apiBaseUrl } from "@/lib/constants";
 
 const FetchUserPredictions: React.FC = () => {
   const [userId, setUserId] = useState<string>("");
-  const [predictions, setPredictions] = useState<number[]>([]); // Only state for predictions
+  const [predictions, setPredictions] = useState<number[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,7 +18,7 @@ const FetchUserPredictions: React.FC = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:3001/api/model", {
+      const response = await fetch(`${apiBaseUrl}/api/model`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -30,7 +31,7 @@ const FetchUserPredictions: React.FC = () => {
       }
 
       const data = await response.json();
-      setPredictions(data.predictions || []); // Only set predictions data
+      setPredictions(data.predictions || []);
       setError(null);
     } catch (error: unknown) {
       if (error instanceof Error) {

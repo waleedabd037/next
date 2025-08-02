@@ -3,16 +3,15 @@ import { CustomButton, DashboardSidebar } from "@/components";
 import { nanoid } from "nanoid";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { apiBaseUrl } from "@/lib/constants"; // ✅ imported
 
 const DashboardUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
-    // sending API request for all users
-    fetch("http://localhost:3001/api/users")
-      .then((res) => {
-        return res.json();
-      })
+    // ✅ Updated API request to use apiBaseUrl
+    fetch(`${apiBaseUrl}/api/users`)
+      .then((res) => res.json())
       .then((data) => {
         setUsers(data);
       });
@@ -24,20 +23,18 @@ const DashboardUsers = () => {
       <div className="w-full">
         <h1 className="text-3xl font-semibold text-center mb-5">All users</h1>
         <div className="flex justify-start mb-5 ml-9">
-  <Link href="/admin/users/new">
-    <button
-      type="button"
-      className="uppercase bg-gradient-to-b from-gray-800 via-gray-900 to-black text-white px-10 py-5 text-base border border-black border-gray-300 font-bold shadow-sm hover:bg-gradient-to-b hover:from-gray-700 hover:via-gray-800 hover:to-gray-900 focus:outline-none focus:ring-2"
-    >
-      Add new user
-    </button>
-  </Link>
-</div>
-
+          <Link href="/admin/users/new">
+            <button
+              type="button"
+              className="uppercase bg-gradient-to-b from-gray-800 via-gray-900 to-black text-white px-10 py-5 text-base border border-black border-gray-300 font-bold shadow-sm hover:bg-gradient-to-b hover:from-gray-700 hover:via-gray-800 hover:to-gray-900 focus:outline-none focus:ring-2"
+            >
+              Add new user
+            </button>
+          </Link>
+        </div>
 
         <div className="xl:ml-5 w-full max-xl:mt-5 overflow-auto w-full h-[80vh]">
           <table className="table table-md table-pin-cols">
-            {/* head */}
             <thead>
               <tr>
                 <th>
@@ -51,7 +48,6 @@ const DashboardUsers = () => {
               </tr>
             </thead>
             <tbody>
-              {/* row 1 */}
               {users &&
                 users.map((user) => (
                   <tr key={nanoid()}>
@@ -80,7 +76,6 @@ const DashboardUsers = () => {
                   </tr>
                 ))}
             </tbody>
-            {/* foot */}
             <tfoot>
               <tr>
                 <th></th>

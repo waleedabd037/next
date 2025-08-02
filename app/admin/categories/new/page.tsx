@@ -1,45 +1,45 @@
 "use client";
+
 import { DashboardSidebar } from "@/components";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { convertCategoryNameToURLFriendly } from "../../../../utils/categoryFormating";
+import { apiBaseUrl } from "@/lib/constants"; // ✅ import the base URL
 
 const DashboardNewCategoryPage = () => {
-  const [categoryInput, setCategoryInput] = useState({
-    name: "",
-  });
+  const [categoryInput, setCategoryInput] = useState({ name: "" });
 
   const addNewCategory = () => {
     if (categoryInput.name.length > 0) {
       const requestOptions = {
-        method: "post",
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: convertCategoryNameToURLFriendly(categoryInput.name),
         }),
       };
-      // sending API request for creating new cateogry
-      fetch(`http://localhost:3001/api/categories`, requestOptions)
+
+      // ✅ sending API request to add a new category
+      fetch(`${apiBaseUrl}/api/categories`, requestOptions)
         .then((response) => {
           if (response.status === 201) {
             return response.json();
           } else {
-            throw Error("There was an error while creating category");
+            throw new Error("There was an error while creating category");
           }
         })
         .then((data) => {
           toast.success("Category added successfully");
-          setCategoryInput({
-            name: "",
-          });
+          setCategoryInput({ name: "" });
         })
-        .catch((error) => {
+        .catch(() => {
           toast.error("There was an error while creating category");
         });
     } else {
       toast.error("You need to enter values to add a category");
     }
   };
+
   return (
     <div className="bg-white flex justify-start max-w-screen-2xl mx-auto xl:h-full max-xl:flex-col max-xl:gap-y-5">
       <DashboardSidebar />
@@ -62,15 +62,14 @@ const DashboardNewCategoryPage = () => {
         </div>
 
         <div className="flex gap-x-2">
-  <button
-    type="button"
-    className="uppercase bg-gradient-to-b from-gray-800 via-gray-900 to-black text-white px-10 py-5 text-lg border border-black border-gray-300 font-bold shadow-sm hover:bg-gradient-to-b hover:from-gray-700 hover:via-gray-800 hover:to-gray-900 focus:outline-none focus:ring-2"
-    onClick={addNewCategory}
-  >
-    Create category
-  </button>
-</div>
-
+          <button
+            type="button"
+            className="uppercase bg-gradient-to-b from-gray-800 via-gray-900 to-black text-white px-10 py-5 text-lg border border-black border-gray-300 font-bold shadow-sm hover:bg-gradient-to-b hover:from-gray-700 hover:via-gray-800 hover:to-gray-900 focus:outline-none focus:ring-2"
+            onClick={addNewCategory}
+          >
+            Create category
+          </button>
+        </div>
       </div>
     </div>
   );

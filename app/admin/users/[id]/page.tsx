@@ -1,9 +1,11 @@
 "use client";
+
 import { DashboardSidebar } from "@/components";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { isValidEmailAddressFormat } from "@/lib/utils";
+import { apiBaseUrl } from "@/lib/constants"; // ✅ imported
 
 interface DashboardUserDetailsProps {
   params: { id: number };
@@ -27,7 +29,7 @@ const DashboardSingleUserPage = ({
     const requestOptions = {
       method: "DELETE",
     };
-    fetch(`http://localhost:3001/api/users/${id}`, requestOptions)
+    fetch(`${apiBaseUrl}/api/users/${id}`, requestOptions) // ✅ updated
       .then((response) => {
         if (response.status === 204) {
           toast.success("User deleted successfully");
@@ -62,7 +64,7 @@ const DashboardSingleUserPage = ({
             role: userInput.role,
           }),
         };
-        fetch(`http://localhost:3001/api/users/${id}`, requestOptions)
+        fetch(`${apiBaseUrl}/api/users/${id}`, requestOptions) // ✅ updated
           .then((response) => {
             if (response.status === 200) {
               return response.json();
@@ -86,7 +88,7 @@ const DashboardSingleUserPage = ({
 
   useEffect(() => {
     // sending API request for a single user
-    fetch(`http://localhost:3001/api/users/${id}`)
+    fetch(`${apiBaseUrl}/api/users/${id}`) // ✅ updated
       .then((res) => {
         return res.json();
       })

@@ -1,6 +1,7 @@
 "use client";
 import { DashboardSidebar } from "@/components";
 import { isValidEmailAddressFormat } from "@/lib/utils";
+import { apiBaseUrl } from "@/lib/constants";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -28,13 +29,11 @@ const DashboardCreateNewUser = () => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(userInput),
         };
-        fetch(`http://localhost:3001/api/users`, requestOptions)
+        fetch(`${apiBaseUrl}/api/users`, requestOptions)
           .then((response) => {
-            if(response.status === 201){
+            if (response.status === 201) {
               return response.json();
-
-            }else{
-              
+            } else {
               throw Error("Error while creating user");
             }
           })
@@ -45,7 +44,8 @@ const DashboardCreateNewUser = () => {
               password: "",
               role: "user",
             });
-          }).catch(error => {
+          })
+          .catch((error) => {
             toast.error("Error while creating user");
           });
       } else {
@@ -112,15 +112,14 @@ const DashboardCreateNewUser = () => {
         </div>
 
         <div className="flex justify-start mb-5 ml-9">
-  <button
-    type="button"
-    className="uppercase bg-gradient-to-b from-gray-800 via-gray-900 to-black text-white px-10 py-5 text-lg border border-black border-gray-300 font-bold shadow-sm hover:bg-gradient-to-b hover:from-gray-700 hover:via-gray-800 hover:to-gray-900 focus:outline-none focus:ring-2"
-    onClick={addNewUser}
-  >
-    Create user
-  </button>
-</div>
-
+          <button
+            type="button"
+            className="uppercase bg-gradient-to-b from-gray-800 via-gray-900 to-black text-white px-10 py-5 text-lg border border-black border-gray-300 font-bold shadow-sm hover:bg-gradient-to-b hover:from-gray-700 hover:via-gray-800 hover:to-gray-900 focus:outline-none focus:ring-2"
+            onClick={addNewUser}
+          >
+            Create user
+          </button>
+        </div>
       </div>
     </div>
   );

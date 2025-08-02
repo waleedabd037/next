@@ -11,6 +11,7 @@ import HeartElement from "./HeartElement";
 import { signOut, useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 import { useWishlistStore } from "@/app/_zustand/wishlistStore";
+import { apiBaseUrl } from "@/lib/constants"; // ✅ import added
 
 const Header = () => {
     const { data: session, status } = useSession();
@@ -24,7 +25,7 @@ const Header = () => {
 
     // getting all wishlist items by user id
     const getWishlistByUserId = async (id: string) => {
-        const response = await fetch(`http://localhost:3001/api/wishlist/${id}`, {
+        const response = await fetch(`${apiBaseUrl}/api/wishlist/${id}`, {
             cache: "no-store",
         });
         const wishlist = await response.json();
@@ -54,7 +55,7 @@ const Header = () => {
     // getting user by email so I can get his user id
     const getUserByEmail = async () => {
         if (session?.user?.email) {
-            fetch(`http://localhost:3001/api/users/email/${session?.user?.email}`, {
+            fetch(`${apiBaseUrl}/api/users/email/${session?.user?.email}`, {
                 cache: "no-store",
             })
                 .then((response) => response.json())
@@ -70,17 +71,14 @@ const Header = () => {
 
     return (
         <header className="bg-white">
-        {/* HeaderTop Stays Fixed */}
-        <div className="fixed top-0 left-0 w-full z-40">
-          <HeaderTop />
-        </div>
-      
-        {/* Spacer to Push Content Below HeaderTop */}
-        <div className="h-10"></div> {/* Matches the reduced height */}
-            {/* Header Content */}
+            <div className="fixed top-0 left-0 w-full z-40">
+                <HeaderTop />
+            </div>
+
+            <div className="h-10"></div>
+
             {pathname.startsWith("/admin") === false && (
                 <div className="h-32 bg-white flex items-center justify-between px-16 max-[1320px]:px-16 max-md:px-6 max-lg:flex-col max-lg:gap-y-7 max-lg:justify-center max-lg:h-50 max-w-screen-2xl mx-auto">
-                  
                     <SearchInput />
                     <div className="flex gap-x-10">
                         <HeartElement wishQuantity={wishQuantity} />
@@ -89,10 +87,8 @@ const Header = () => {
                 </div>
             )}
 
-            {/* Dashboard Header */}
             {pathname.startsWith("/dashboard") === true && (
                 <div className="flex justify-between h-32 bg-white items-center px-16 max-[1320px]:px-10 max-w-screen-2xl mx-auto max-[400px]:px-5">
-                   
                     <div className="flex gap-x-5 items-center">
                         <FaBell className="text-xl" />
                         <div className="dropdown dropdown-end">

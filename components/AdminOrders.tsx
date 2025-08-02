@@ -1,15 +1,15 @@
 "use client";
 
-
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { apiBaseUrl } from "@/lib/constants"; // ✅ Import the constant
 
 const AdminOrders = () => {
   const [orders, setOrders] = useState<Order[]>([]);
 
   useEffect(() => {
     const fetchOrders = async () => {
-      const response = await fetch("http://localhost:3001/api/orders");
+      const response = await fetch(`${apiBaseUrl}/api/orders`); // ✅ Updated URL
       const data = await response.json();
       setOrders(data);
     };
@@ -38,60 +38,59 @@ const AdminOrders = () => {
             </tr>
           </thead>
           <tbody>
-  {/* Check if orders exist and is an array */}
-  {Array.isArray(orders) && orders.length > 0 ? (
-    orders.map((order) => (
-      <tr key={order?.id}>
-        <th>
-          <label>
-            <input type="checkbox" className="checkbox" />
-          </label>
-        </th>
+            {/* Check if orders exist and is an array */}
+            {Array.isArray(orders) && orders.length > 0 ? (
+              orders.map((order) => (
+                <tr key={order?.id}>
+                  <th>
+                    <label>
+                      <input type="checkbox" className="checkbox" />
+                    </label>
+                  </th>
 
-        <td>
-          <div>
-            <p className="font-bold">#{order?.id}</p>
-          </div>
-        </td>
+                  <td>
+                    <div>
+                      <p className="font-bold">#{order?.id}</p>
+                    </div>
+                  </td>
 
-        <td>
-          <div className="flex items-center gap-5">
-            <div>
-              <div className="font-bold">{order?.name}</div>
-              <div className="text-sm opacity-50">{order?.country}</div>
-            </div>
-          </div>
-        </td>
+                  <td>
+                    <div className="flex items-center gap-5">
+                      <div>
+                        <div className="font-bold">{order?.name}</div>
+                        <div className="text-sm opacity-50">{order?.country}</div>
+                      </div>
+                    </div>
+                  </td>
 
-        <td>
-          <span className="badge badge-success text-white badge-sm">
-            {order?.status}
-          </span>
-        </td>
+                  <td>
+                    <span className="badge badge-success text-white badge-sm">
+                      {order?.status}
+                    </span>
+                  </td>
 
-        <td>
-          <p>${order?.total}</p>
-        </td>
+                  <td>
+                    <p>${order?.total}</p>
+                  </td>
 
-        <td>{new Date(Date.parse(order?.dateTime)).toDateString()}</td>
+                  <td>{new Date(Date.parse(order?.dateTime)).toDateString()}</td>
 
-        <th>
-          <Link href={`/admin/orders/${order?.id}`} className="btn btn-ghost btn-xs">
-            details
-          </Link>
-        </th>
-      </tr>
-    ))
-  ) : (
-    <tr>
- <td colSpan={6} className="text-left py-4 ml-8">
-      <strong>No orders available</strong>
-    </td>
-    </tr>
-  )}
-</tbody>
-{/* foot */}
-          </table>
+                  <th>
+                    <Link href={`/admin/orders/${order?.id}`} className="btn btn-ghost btn-xs">
+                      details
+                    </Link>
+                  </th>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={6} className="text-left py-4 ml-8">
+                  <strong>No orders available</strong>
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
     </div>
   );

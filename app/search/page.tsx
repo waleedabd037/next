@@ -1,4 +1,5 @@
 import { ProductItem, SectionTitle } from "@/components";
+import { apiBaseUrl } from "@/lib/constants";
 import React from "react";
 
 interface Props {
@@ -7,7 +8,7 @@ interface Props {
 
 const SearchPage = async ({ searchParams: { search } }: Props) => {
   const data = await fetch(
-    `http://localhost:3001/api/search?query=${search || ""}`
+    `${apiBaseUrl}/api/search?query=${search || ""}`
   );
 
   const products = await data.json();
@@ -18,7 +19,7 @@ const SearchPage = async ({ searchParams: { search } }: Props) => {
       <div className="bg-gradient-to-b from-gray-800 via-gray-900 to-black text-white pb-10">
         {search && (
           <h3 className="text-4xl text-center py-10 max-sm:text-3xl">
-            Showing results for <span >{search}</span>
+            Showing results for <span>{search}</span>
           </h3>
         )}
       </div>

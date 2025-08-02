@@ -5,6 +5,7 @@ import { supabase } from '@/utils/supabase';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { apiBaseUrl } from '@/lib/constants'; // ✅ Import added
 
 const AddNewProduct = () => {
   const [product, setProduct] = useState<{
@@ -49,7 +50,7 @@ const AddNewProduct = () => {
       body: JSON.stringify(product),
     };
 
-    fetch(`http://localhost:3001/api/products`, requestOptions)
+    fetch(`${apiBaseUrl}/api/products`, requestOptions) // ✅ URL updated
       .then((response) => {
         if (response.status === 201) {
           return response.json();
@@ -94,22 +95,22 @@ const AddNewProduct = () => {
     }
 
     const { data: publicUrlData } = supabase
-  .storage
-  .from('product-images')
-  .getPublicUrl(fileName);
+      .storage
+      .from('product-images')
+      .getPublicUrl(fileName);
 
-if (!publicUrlData?.publicUrl) {
-  toast.error('Could not retrieve image URL');
-  return;
-}
+    if (!publicUrlData?.publicUrl) {
+      toast.error('Could not retrieve image URL');
+      return;
+    }
 
-setProduct((prev) => ({ ...prev, mainImage: publicUrlData.publicUrl }));
+    setProduct((prev) => ({ ...prev, mainImage: publicUrlData.publicUrl }));
 
     toast.success('Image uploaded');
   };
 
   const fetchCategories = async () => {
-    fetch(`http://localhost:3001/api/categories`)
+    fetch(`${apiBaseUrl}/api/categories`) // ✅ URL updated
       .then((res) => res.json())
       .then((data) => {
         setCategories(data);

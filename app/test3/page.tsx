@@ -1,10 +1,10 @@
-////under construction//
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { useSession } from "next-auth/react";
+import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useSession } from 'next-auth/react';
+import { apiBaseUrl } from '@/lib/constants'; // ✅ imported
 
 const ProductImagesBanner: React.FC = () => {
   const { data: session } = useSession();
@@ -16,28 +16,28 @@ const ProductImagesBanner: React.FC = () => {
   useEffect(() => {
     const fetchProductImages = async () => {
       if (!session?.user?.id) {
-        console.error("User is not authenticated");
+        console.error('User is not authenticated');
         return;
       }
 
       try {
-        const modelResponse = await fetch("http://localhost:3001/api/model", {
-          method: "POST",
+        const modelResponse = await fetch(`${apiBaseUrl}/api/model`, {
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({ userId: session.user.id }),
         });
 
         if (!modelResponse.ok) {
-          console.error("Failed to fetch product data");
+          console.error('Failed to fetch product data');
           return;
         }
 
         const modelData = await modelResponse.json();
-        setImages(modelData.products); // Now contains title, slug, and image
+        setImages(modelData.products);
       } catch (error) {
-        console.error("Error fetching product data:", error);
+        console.error('Error fetching product data:', error);
       } finally {
         setLoading(false);
       }
@@ -56,10 +56,9 @@ const ProductImagesBanner: React.FC = () => {
         <div className="flex justify-center gap-4 items-center">
           {images.map((product, index) => (
             <div key={index} className="cursor-pointer text-center">
-              {/* Link image to product slug */}
               <Link href={`/product/${product.slug}`}>
                 <Image
-                  src={product.mainImage ? `/${product.mainImage}` : "/product_placeholder.jpg"}
+                  src={product.mainImage ? `/${product.mainImage}` : '/product_placeholder.jpg'}
                   width={150}
                   height={150}
                   sizes="100vw"
@@ -67,7 +66,6 @@ const ProductImagesBanner: React.FC = () => {
                   alt={product.title}
                 />
               </Link>
-              {/* Display the product title */}
               <Link href={`/product/${product.slug}`}>
                 <p className="mt-2 text-sm font-medium text-gray-800 hover:text-blue-500">
                   {product.title}

@@ -1,6 +1,7 @@
 "use client";
 import { DashboardSidebar } from "@/components";
 import { isValidEmailAddressFormat, isValidNameOrLastname } from "@/lib/utils";
+import { apiBaseUrl } from "@/lib/constants";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
@@ -26,6 +27,24 @@ interface OrderProduct {
   };
 }
 
+interface Order {
+  id: string;
+  adress: string;
+  apartment: string;
+  company: string;
+  dateTime: string;
+  email: string;
+  lastname: string;
+  name: string;
+  phone: string;
+  postalCode: string;
+  city: string;
+  country: string;
+  orderNotice: string;
+  status: "processing" | "delivered" | "canceled";
+  total: number;
+}
+
 const AdminSingleOrder = () => {
   const [orderProducts, setOrderProducts] = useState<OrderProduct[]>();
   const [order, setOrder] = useState<Order>({
@@ -45,23 +64,19 @@ const AdminSingleOrder = () => {
     status: "processing",
     total: 0,
   });
-  const params = useParams<{ id: string }>();
 
+  const params = useParams<{ id: string }>();
   const router = useRouter();
 
   useEffect(() => {
     const fetchOrderData = async () => {
-      const response = await fetch(
-        `http://localhost:3001/api/orders/${params?.id}`
-      );
+      const response = await fetch(`${apiBaseUrl}/api/orders/${params?.id}`);
       const data: Order = await response.json();
       setOrder(data);
     };
 
     const fetchOrderProducts = async () => {
-      const response = await fetch(
-        `http://localhost:3001/api/order-product/${params?.id}`
-      );
+      const response = await fetch(`${apiBaseUrl}/api/order-product/${params?.id}`);
       const data: OrderProduct[] = await response.json();
       setOrderProducts(data);
     };
@@ -98,8 +113,8 @@ const AdminSingleOrder = () => {
         return;
       }
 
-      fetch(`http://localhost:3001/api/orders/${order?.id}`, {
-        method: "PUT", // or 'PUT'
+      fetch(`${apiBaseUrl}/api/orders/${order?.id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -109,11 +124,11 @@ const AdminSingleOrder = () => {
           if (response.status === 200) {
             toast.success("Order updated successfuly");
           } else {
-            throw Error("There was an error while updating a order");
+            throw Error("There was an error while updating the order");
           }
         })
-        .catch((error) =>
-          toast.error("There was an error while updating a order")
+        .catch(() =>
+          toast.error("There was an error while updating the order")
         );
     } else {
       toast.error("Please fill all fields");
@@ -125,18 +140,16 @@ const AdminSingleOrder = () => {
       method: "DELETE",
     };
 
-    fetch(
-      `http://localhost:3001/api/order-product/${order?.id}`,
-      requestOptions
-    ).then((response) => {
-      fetch(
-        `http://localhost:3001/api/orders/${order?.id}`,
-        requestOptions
-      ).then((response) => {
-        toast.success("Order deleted successfully");
-        router.push("/admin/orders");
-      });
-    });
+    fetch(`${apiBaseUrl}/api/order-product/${order?.id}`, requestOptions).then(
+      (response) => {
+        fetch(`${apiBaseUrl}/api/orders/${order?.id}`, requestOptions).then(
+          (response) => {
+            toast.success("Order deleted successfully");
+            router.push("/admin/orders");
+          }
+        );
+      }
+    );
   };
 
   return (
@@ -183,6 +196,7 @@ const AdminSingleOrder = () => {
           </div>
         </div>
 
+        {/* Phone */}
         <div>
           <label className="form-control w-full max-w-xs">
             <div className="label">
@@ -197,10 +211,11 @@ const AdminSingleOrder = () => {
           </label>
         </div>
 
+        {/* Email */}
         <div>
           <label className="form-control w-full max-w-xs">
             <div className="label">
-              <span className="label-text">Email adress:</span>
+              <span className="label-text">Email address:</span>
             </div>
             <input
               type="email"
@@ -211,6 +226,7 @@ const AdminSingleOrder = () => {
           </label>
         </div>
 
+        {/* Company */}
         <div>
           <label className="form-control w-full max-w-xs">
             <div className="label">
@@ -225,6 +241,7 @@ const AdminSingleOrder = () => {
           </label>
         </div>
 
+        {/* Address + Apartment */}
         <div className="flex gap-x-2 max-sm:flex-col">
           <div>
             <label className="form-control w-full max-w-xs">
@@ -235,7 +252,9 @@ const AdminSingleOrder = () => {
                 type="text"
                 className="input input-bordered w-full max-w-xs"
                 value={order?.adress}
-                onChange={(e) => setOrder({ ...order, adress: e.target.value })}
+                onChange={(e) =>
+                  setOrder({ ...order, adress: e.target.value })
+                }
               />
             </label>
           </div>
@@ -243,7 +262,7 @@ const AdminSingleOrder = () => {
           <div>
             <label className="form-control w-full max-w-xs">
               <div className="label">
-                <span className="label-text">Apartment, suite, etc. :</span>
+                <span className="label-text">Apartment, suite, etc.:</span>
               </div>
               <input
                 type="text"
@@ -257,6 +276,7 @@ const AdminSingleOrder = () => {
           </div>
         </div>
 
+        {/* City, Country, Postal Code */}
         <div className="flex gap-x-2 max-sm:flex-col">
           <div>
             <label className="form-control w-full max-w-xs">
@@ -305,6 +325,7 @@ const AdminSingleOrder = () => {
           </div>
         </div>
 
+        {/* Status */}
         <div>
           <label className="form-control w-full max-w-xs">
             <div className="label">
@@ -316,10 +337,7 @@ const AdminSingleOrder = () => {
               onChange={(e) =>
                 setOrder({
                   ...order,
-                  status: e.target.value as
-                    | "processing"
-                    | "delivered"
-                    | "canceled",
+                  status: e.target.value as "processing" | "delivered" | "canceled",
                 })
               }
             >
@@ -329,6 +347,8 @@ const AdminSingleOrder = () => {
             </select>
           </label>
         </div>
+
+        {/* Order Notice */}
         <div>
           <label className="form-control">
             <div className="label">
@@ -343,11 +363,17 @@ const AdminSingleOrder = () => {
             ></textarea>
           </label>
         </div>
+
+        {/* Products */}
         <div>
           {orderProducts?.map((product) => (
             <div className="flex items-center gap-x-4" key={product?.id}>
               <Image
-                src={product?.product?.mainImage ? `/${product?.product?.mainImage}` : "/product_placeholder.jpg"}
+                src={
+                  product?.product?.mainImage
+                    ? `/${product?.product?.mainImage}`
+                    : "/product_placeholder.jpg"
+                }
                 alt={product?.product?.title}
                 width={50}
                 height={50}
@@ -363,6 +389,7 @@ const AdminSingleOrder = () => {
               </div>
             </div>
           ))}
+
           <div className="flex flex-col gap-y-2 mt-10">
             <p className="text-2xl">Subtotal: ${order?.total}</p>
             <p className="text-2xl">Tax 20%: ${order?.total / 5}</p>
@@ -371,6 +398,7 @@ const AdminSingleOrder = () => {
               Total: ${order?.total + order?.total / 5 + 5}
             </p>
           </div>
+
           <div className="flex gap-x-2 max-sm:flex-col mt-5">
             <button
               type="button"

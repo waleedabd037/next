@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import ProductItem from "./ProductItem";
 import Heading from "./Heading";
+import { apiBaseUrl } from "@/lib/constants";
 
 interface Product {
   id: string;
@@ -23,7 +24,7 @@ const ProductsSection = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("http://localhost:3001/api/products", {
+        const response = await fetch(`${apiBaseUrl}/api/products`, {
           cache: "no-store",
         });
 

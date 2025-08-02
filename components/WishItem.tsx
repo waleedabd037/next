@@ -1,4 +1,3 @@
-
 "use client";
 import { useWishlistStore } from "@/app/_zustand/wishlistStore";
 import { revalidatePath } from "next/cache";
@@ -7,8 +6,8 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaHeartCrack } from "react-icons/fa6";
-//import { deleteWishItem } from "@/app/(home)/actions";
 import { useSession } from "next-auth/react";
+import { apiBaseUrl } from "@/lib/constants";
 
 interface wishItemStateTrackers {
   isWishItemDeleted: boolean;
@@ -34,7 +33,7 @@ const WishItem = ({
 
   const getUserByEmail = async () => {
     if (session?.user?.email) {
-      fetch(`http://localhost:3001/api/users/email/${session?.user?.email}`, {
+      fetch(`${apiBaseUrl}/api/users/email/${session?.user?.email}`, {
         cache: "no-store",
       })
         .then((response) => response.json())
@@ -45,16 +44,14 @@ const WishItem = ({
   };
 
   const deleteItemFromWishlist = async (productId: string) => {
-    
     if (userId) {
-
-      fetch(`http://localhost:3001/api/wishlist/${userId}/${productId}`, {method: "DELETE"}).then(
-        (response) => {
-          removeFromWishlist(productId);
-          toast.success("Item removed from your wishlist");
-        }
-      );
-    }else{
+      fetch(`${apiBaseUrl}/api/wishlist/${userId}/${productId}`, {
+        method: "DELETE",
+      }).then((response) => {
+        removeFromWishlist(productId);
+        toast.success("Item removed from your wishlist");
+      });
+    } else {
       toast.error("You need to be logged in to perform this action");
     }
   };
