@@ -30,7 +30,7 @@ interface ImageItem {
 }
 
 // ✅ Hardcoded API base URL
-const apiBaseUrl = 'https://server-production-e6d2.up.railway.app';
+const apiBaseUrl =  process.env.NEXT_PUBLIC_API_URL;
 
 const SingleProductClient = ({ slug }: { slug: string }) => {
   const [product, setProduct] = useState<Product | null>(null);
