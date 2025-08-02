@@ -9,7 +9,7 @@ import {
 } from '@/components';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-
+import { apiBaseUrl } from '@/lib/constants';
 interface Product {
   id: string;
   title: string;
@@ -30,7 +30,7 @@ interface ImageItem {
 }
 
 // ✅ Hardcoded API base URL
-const apiBaseUrl =  process.env.NEXT_PUBLIC_API_URL;
+//const apiBaseUrl =  process.env.NEXT_PUBLIC_API_URL;
 
 const SingleProductClient = ({ slug }: { slug: string }) => {
   const [product, setProduct] = useState<Product | null>(null);
