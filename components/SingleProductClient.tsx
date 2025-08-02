@@ -21,6 +21,7 @@ interface Product {
   slug: string;
   categoryId: string;
   rating: number;
+  category?: string;
 }
 
 interface ImageItem {
