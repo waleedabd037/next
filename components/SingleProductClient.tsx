@@ -21,7 +21,6 @@ interface Product {
   slug: string;
   categoryId: string;
   rating: number;
-//  category?: string;
 }
 
 interface ImageItem {
@@ -29,6 +28,9 @@ interface ImageItem {
   productID: string;
   image: string;
 }
+
+// ✅ Hardcoded API base URL
+const apiBaseUrl = 'https://server-production-e6d2.up.railway.app';
 
 const SingleProductClient = ({ slug }: { slug: string }) => {
   const [product, setProduct] = useState<Product | null>(null);
@@ -38,12 +40,12 @@ const SingleProductClient = ({ slug }: { slug: string }) => {
   useEffect(() => {
     const fetchProductData = async () => {
       try {
-        const res = await fetch(`http://localhost:3001/api/slugs/${slug}`);
+        const res = await fetch(`${apiBaseUrl}/api/slugs/${slug}`);
         if (!res.ok) throw new Error('Failed to fetch product');
         const prod = await res.json();
         setProduct(prod);
 
-        const imageRes = await fetch(`http://localhost:3001/api/images/${prod.id}`);
+        const imageRes = await fetch(`${apiBaseUrl}/api/images/${prod.id}`);
         if (imageRes.ok) {
           const imgs = await imageRes.json();
           setImages(imgs);
