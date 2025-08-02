@@ -1,81 +1,75 @@
 "use client";
+
 import { DashboardSidebar } from "@/components";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { formatCategoryName } from "../../../../utils/categoryFormating";
 import { convertCategoryNameToURLFriendly } from "../../../../utils/categoryFormating";
+import { apiBaseUrl } from "@/lib/constants"; // ✅ import the base URL
 
 interface DashboardSingleCategoryProps {
   params: { id: number };
 }
 
-const DashboardSingleCategory = ({
-  params: { id },
-}: DashboardSingleCategoryProps) => {
-  const [categoryInput, setCategoryInput] = useState<{ name: string }>({
-    name: "",
-  });
+const DashboardSingleCategory = ({ params: { id } }: DashboardSingleCategoryProps) => {
+  const [categoryInput, setCategoryInput] = useState<{ name: string }>({ name: "" });
   const router = useRouter();
 
   const deleteCategory = async () => {
-    const requestOptions = {
-      method: "DELETE",
-    };
-    // sending API request for deleting a category
-    fetch(`http://localhost:3001/api/categories/${id}`, requestOptions)
-      .then((response) => {
-        if (response.status === 200) {
-          toast.success("Category deleted successfully");
-          router.push("/admin/categories");
-        } else {
-          throw Error("There was an error deleting a category");
-        }
-      })
-      .catch((error) => {
-        toast.error("There was an error deleting category");
+    try {
+      const response = await fetch(`${apiBaseUrl}/api/categories/${id}`, {
+        method: "DELETE",
       });
+
+      if (response.status === 200) {
+        toast.success("Category deleted successfully");
+        router.push("/admin/categories");
+      } else {
+        throw new Error("There was an error deleting a category");
+      }
+    } catch (error) {
+      toast.error("There was an error deleting category");
+    }
   };
 
   const updateCategory = async () => {
     if (categoryInput.name.length > 0) {
-      const requestOptions = {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: convertCategoryNameToURLFriendly(categoryInput.name),
-        }),
-      };
-      // sending API request for updating a category
-      fetch(`http://localhost:3001/api/categories/${id}`, requestOptions)
-        .then((response) => {
-          if (response.status === 200) {
-            return response.json();
-          } else {
-            throw Error("Error updating a category");
-          }
-        })
-        .then((data) => toast.success("Category successfully updated"))
-        .catch((error) => {
-          toast.error("There was an error while updating a category");
+      try {
+        const response = await fetch(`${apiBaseUrl}/api/categories/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: convertCategoryNameToURLFriendly(categoryInput.name),
+          }),
         });
+
+        if (response.status === 200) {
+          await response.json();
+          toast.success("Category successfully updated");
+        } else {
+          throw new Error("Error updating a category");
+        }
+      } catch (error) {
+        toast.error("There was an error while updating a category");
+      }
     } else {
       toast.error("For updating a category you must enter all values");
-      return;
     }
   };
 
   useEffect(() => {
-    // sending API request for getting single categroy
-    fetch(`http://localhost:3001/api/categories/${id}`)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setCategoryInput({
-          name: data?.name,
-        });
-      });
+    const fetchCategory = async () => {
+      try {
+        const res = await fetch(`${apiBaseUrl}/api/categories/${id}`);
+        const data = await res.json();
+        setCategoryInput({ name: data?.name });
+      } catch {
+        toast.error("Error fetching category");
+      }
+    };
+
+    fetchCategory();
   }, [id]);
 
   return (
@@ -115,6 +109,7 @@ const DashboardSingleCategory = ({
             Delete category
           </button>
         </div>
+
         <p className="text-xl text-error max-sm:text-lg">
           Note: if you delete this category, you will delete all products
           associated with the category.

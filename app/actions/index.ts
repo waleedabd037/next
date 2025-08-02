@@ -1,13 +1,16 @@
 'use server'
 
 import { revalidateTag } from "next/cache";
+import { apiBaseUrl } from "@/lib/constants";
 
-export async function deleteWishItem(id: string){
-  await fetch(`http://localhost:3001/api/wishlist/${id}`, {
+// ✅ Deletes a wishlist item by its ID from the backend API
+export async function deleteWishItem(id: string) {
+  await fetch(`${apiBaseUrl}/api/wishlist/${id}`, {
     method: "DELETE",
   });
 }
 
+// ⛔️ Commented-out logic (for sorting/filtering cars):
 
 // import { redirect } from 'next/navigation'
 
@@ -19,59 +22,49 @@ export async function deleteWishItem(id: string){
 //     case "newestSort":
 //       redirect("/cars?sort=newestCars");
 //       break;
-    
 //     case "oldestSort":
 //       redirect("/cars?sort=oldestCars");
 //       break;
-
 //     case "lowestPriceSort":
 //       redirect("/cars?sort=lowestPrice");
 //       break;
-
 //     case "highPriceSort":
 //       redirect("/cars?sort=highestPrice");
 //       break;
-  
 //     default:
 //       redirect("/cars");
 //       break;
 //   }
 // }
 
-// export async function filterCars(formData: FormData){
+// export async function filterCars(formData: FormData) {
 //   redirect(`/cars?condition=${formData.get("conditions") || "all"}&transmission=${formData.get("transmissions") || 'all'}&fuel=${formData.get("fuels") || 'all'}`);
 // }
 
-
-// export async function filterAndSortCars(formData: FormData){
+// export async function filterAndSortCars(formData: FormData) {
 //   const sort = formData.get("sort");
 //   let sortQuery = "";
-//   switch(sort){
+//   switch(sort) {
 //     case "defaultSort":
-//       sortQuery ="";
+//       sortQuery = "";
 //       break;
 //     case "newestSort":
 //       sortQuery = "&sort=newestCars";
 //       break;
-    
 //     case "oldestSort":
 //       sortQuery = "&sort=oldestCars";
 //       break;
-
 //     case "lowestPriceSort":
 //       sortQuery = "&sort=lowestPrice";
 //       break;
-
 //     case "highPriceSort":
 //       sortQuery = "&sort=highestPrice";
 //       break;
-  
 //     default:
 //       sortQuery = "";
 //       break;
 //   }
-//   redirect(`/products?filter=no${sortQuery}`);
 
-  // za kasnije kada dodjem do filtera
-//   redirect(`/products?condition=${formData.get("conditions") || "all"}&transmission=${formData.get("transmissions") || 'all'}&fuel=${formData.get("fuels") || 'all'}${sortQuery}`);
+//   // Example of how filters and sort can be combined:
+//   // redirect(`/products?condition=${formData.get("conditions") || "all"}&transmission=${formData.get("transmissions") || 'all'}&fuel=${formData.get("fuels") || 'all'}${sortQuery}`);
 // }
