@@ -3,6 +3,8 @@ import { SectionTitle } from "@/components";
 import { useState } from "react";
 import AdminLogin from "@/components/AdminLogin";
 import UserLogin from "@/components/UserLogin";
+import AdminIcon from "@/components/AdminIcon";
+import UserIcon from "@/components/UserIcon";
 
 const LoginPage = () => {
     const [accountType, setAccountType] = useState<"user" | "admin">("user");
@@ -10,7 +12,7 @@ const LoginPage = () => {
     return (
         <div className="bg-blue-50 min-h-screen flex flex-col items-center justify-center p-4">
             {/* Section Title */}
-            
+
             {/* Login Card */}
             <div className="w-full max-w-md bg-white p-6 rounded-md shadow-lg">
                 <h2 className="text-center text-2xl font-semibold text-gray-900 mb-4">
@@ -21,44 +23,40 @@ const LoginPage = () => {
                 <div className="flex justify-around mb-6">
                     <div
                         onClick={() => setAccountType("user")}
-                        className={`flex flex-col items-center cursor-pointer p-4 rounded-md border-2 ${accountType === "user"
+                        className={`flex flex-col items-center cursor-pointer p-4 rounded-md border-2 ${
+                            accountType === "user"
                                 ? "border-blue-500"
                                 : "border-gray-200"
-                            }`}
+                        }`}
                     >
-                        {/* Placeholder for User Icon */}
-                        <img
-                            src="/https://gtvytcgrhrelhbwogyoe.supabase.co/storage/v1/object/public/product-images//user.jpg"
-                            alt="User Icon"
-                            className="mb-2"
-                        />
+                        {/* User Icon */}
+                        <UserIcon />
                         <span
-                            className={`text-sm font-medium ${accountType === "user"
+                            className={`text-sm font-medium ${
+                                accountType === "user"
                                     ? "text-blue-500"
                                     : "text-gray-700"
-                                }`}
+                            }`}
                         >
                             User
                         </span>
                     </div>
                     <div
                         onClick={() => setAccountType("admin")}
-                        className={`flex flex-col items-center cursor-pointer p-4 rounded-md border-2 ${accountType === "admin"
+                        className={`flex flex-col items-center cursor-pointer p-4 rounded-md border-2 ${
+                            accountType === "admin"
                                 ? "border-blue-500"
                                 : "border-gray-200"
-                            }`}
+                        }`}
                     >
-                        {/* Placeholder for Admin/Doctor Icon */}
-                        <img
-                            src="https://gtvytcgrhrelhbwogyoe.supabase.co/storage/v1/object/public/product-images//admin.jpg"
-                            alt="Admin Icon"
-                            className="mb-2"
-                        />
+                        {/* Admin Icon */}
+                        <AdminIcon />
                         <span
-                            className={`text-sm font-medium ${accountType === "admin"
+                            className={`text-sm font-medium ${
+                                accountType === "admin"
                                     ? "text-blue-500"
                                     : "text-gray-700"
-                                }`}
+                            }`}
                         >
                             Admin
                         </span>
