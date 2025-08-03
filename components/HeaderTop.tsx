@@ -21,7 +21,7 @@ const HeaderTop = () => {
                     <li className="flex items-center gap-x-2 font-semibold">
                         <Link href="/">
                             <img
-                                src="/logo v1 svg.svg"
+                                src="https://gtvytcgrhrelhbwogyoe.supabase.co/storage/v1/object/public/product-images//logo%20v1.png"
                                 width={50}
                                 height={300}
                                 alt="singitronic logo"
