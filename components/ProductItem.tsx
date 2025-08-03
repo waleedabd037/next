@@ -71,13 +71,14 @@ const ProductItem = ({
 <div className="flex flex-col items-center gap-y-2">
   <Link href={`/product/${product.slug}`}>
     <Image
-    src={product.mainImage}
-    width={300}
-    height={300}
-    sizes="100vw"
-    alt={product.title}
-    className="w-[300px] h-[300px] object-cover rounded-md"
-  />
+      src={product.mainImage}
+      width="0"
+      height="0"
+      sizes="100vw"
+      className="w-auto h-[300px]"
+      alt={product.title}
+  //    onClick={() => handleUserInteraction("click")}
+    />
   </Link>
   <Link
     href={`/product/${product.slug}`}
