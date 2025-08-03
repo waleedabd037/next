@@ -7,7 +7,7 @@ export default function Home() {
      
     <Hero />
     <IntroducingSection />
-   
+   <CarViewer360/>
     <ProductsSection />
     </>
   );

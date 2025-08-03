@@ -72,8 +72,8 @@ const ProductItem = ({
   <Link href={`/product/${product.slug}`}>
     <Image
       src={product.mainImage}
-      width="0"
-      height="0"
+      width="100"
+      height="100"
       sizes="100vw"
       className="w-auto h-[300px]"
       alt={product.title}
