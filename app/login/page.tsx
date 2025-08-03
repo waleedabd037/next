@@ -28,7 +28,7 @@ const LoginPage = () => {
                     >
                         {/* Placeholder for User Icon */}
                         <img
-                            src="/user.jpg"
+                            src="/https://gtvytcgrhrelhbwogyoe.supabase.co/storage/v1/object/public/product-images//user.jpg"
                             alt="User Icon"
                             className="mb-2"
                         />
@@ -50,7 +50,7 @@ const LoginPage = () => {
                     >
                         {/* Placeholder for Admin/Doctor Icon */}
                         <img
-                            src="Admin.jpg"
+                            src="https://gtvytcgrhrelhbwogyoe.supabase.co/storage/v1/object/public/product-images//admin.jpg"
                             alt="Admin Icon"
                             className="mb-2"
                         />
