@@ -24,7 +24,7 @@ const HeaderTop = () => {
                                 src="https://gtvytcgrhrelhbwogyoe.supabase.co/storage/v1/object/public/product-images//logo%20v1.png"
                                 width={50}
                                 height={300}
-                                alt="singitronic logo"
+                                alt="kia logo"
                                 className="relative right-5 max-[1023px]:w-56"
                             />
                         </Link>

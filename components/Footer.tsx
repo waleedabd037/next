@@ -20,19 +20,19 @@ const Footer = () => {
             <div>
               <h3 className="text-base font-semibold text-white-400">Vehicles</h3>
               <ul className="mt-4 space-y-3">
-                <li><a href="/models" className="text-sm hover:text-white">All Models</a></li>
-                <li><a href="/electric" className="text-sm hover:text-white">Electric</a></li>
-                <li><a href="/suv" className="text-sm hover:text-white">SUVs</a></li>
-                <li><a href="/sedans" className="text-sm hover:text-white">Sedans</a></li>
+                <li><a href="#" className="text-sm hover:text-white">All Models</a></li>
+                <li><a href="#" className="text-sm hover:text-white">Electric</a></li>
+                <li><a href="#" className="text-sm hover:text-white">SUVs</a></li>
+                <li><a href="#" className="text-sm hover:text-white">Sedans</a></li>
               </ul>
             </div>
             <div>
               <h3 className="text-base font-semibold text-white-400">Support</h3>
               <ul className="mt-4 space-y-3">
-                <li><a href="/contact" className="text-sm hover:text-white">Contact Us</a></li>
-                <li><a href="/service-centers" className="text-sm hover:text-white">Service Centers</a></li>
-                <li><a href="/warranty" className="text-sm hover:text-white">Warranty</a></li>
-                <li><a href="/faqs" className="text-sm hover:text-white">FAQs</a></li>
+                <li><a href="#" className="text-sm hover:text-white">Contact Us</a></li>
+                <li><a href="#" className="text-sm hover:text-white">Service Centers</a></li>
+                <li><a href="#" className="text-sm hover:text-white">Warranty</a></li>
+                <li><a href="#" className="text-sm hover:text-white">FAQs</a></li>
               </ul>
             </div>
           </div>
