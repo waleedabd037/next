@@ -13,15 +13,18 @@ const BuyNowSingleProductBtn = ({
 
   const handleAddToCart = () => {
     addToCart({
-      id: product?.id.toString(),
-      title: product?.title,
-      price: product?.price,
-      image: product?.mainImage,
-      amount: quantityCount,
+       id: product?.id.toString(),
+       title: product?.title,
+       price: product?.price,
+       image: product?.mainImage,      // Assuming mainImage is the image
+       mainImage: product?.mainImage,  // Required field
+       name: product?.title,           // Just reusing title for now
+       amount: quantityCount,
+      
     });
     calculateTotals();
     toast.success("Product added to the cart");
-    router.push("/checkout");
+    router.push("/cart");
   };
 
   return (

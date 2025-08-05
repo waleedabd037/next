@@ -1,10 +1,9 @@
-// app/checkout/page.tsx
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { useProductStore } from "../_zustand/store"; // ✅ correct hook
+import { useProductStore } from "../_zustand/store";
 import SectionTitle from "@/components/SectionTitle";
 import OrderSummary from "@/components/OrderSummary";
 import ContactForm from "@/components/ContactForm";
@@ -14,12 +13,13 @@ import CheckoutSubmit from "@/components/CheckoutSubmit";
 
 const CheckoutPage = () => {
   const router = useRouter();
+
   const { products, total } = useProductStore((state) => ({
     products: state.products,
     total: state.total,
   }));
 
-  const [checkoutForm, setCheckoutForm] = React.useState({
+  const [checkoutForm, setCheckoutForm] = useState({
     name: "",
     lastname: "",
     phone: "",
@@ -44,8 +44,30 @@ const CheckoutPage = () => {
     }
   }, [products, router]);
 
-  const makePurchase = () => {
-    // Existing makePurchase logic...
+  const makePurchase = async () => {
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          products, // ✅ Match backend
+          formData: checkoutForm,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data?.url) {
+        window.location.href = data.url; // ✅ Redirect to Stripe
+      } else {
+        toast.error("Failed to redirect to Stripe Checkout");
+      }
+    } catch (error) {
+      console.error("Checkout error:", error);
+      toast.error("Checkout failed");
+    }
   };
 
   return (
@@ -53,6 +75,7 @@ const CheckoutPage = () => {
       <SectionTitle title="Checkout" path="Home | Cart | Checkout" />
 
       <main className="relative mx-auto grid max-w-screen-2xl grid-cols-1 gap-x-16 lg:grid-cols-2 lg:px-8 xl:gap-x-48">
+        {/* Order Summary Section */}
         <section
           aria-labelledby="summary-heading"
           className="bg-gray-50 px-4 pb-10 pt-16 sm:px-6 lg:col-start-2 lg:row-start-1 lg:bg-transparent lg:px-0 lg:pb-16"
@@ -60,6 +83,7 @@ const CheckoutPage = () => {
           <OrderSummary products={products} total={total} />
         </section>
 
+        {/* Checkout Forms */}
         <form className="px-4 pt-16 sm:px-6 lg:col-start-1 lg:row-start-1 lg:px-0">
           <div className="mx-auto max-w-lg lg:max-w-none">
             <ContactForm form={checkoutForm} setForm={setCheckoutForm} />
