@@ -8,12 +8,15 @@ const AddToCartSingleProductBtn = ({ product, quantityCount }: SingleProductBtnP
 
   const handleAddToCart = () => {
     addToCart({
-      id: product?.id.toString(),
-      title: product?.title,
-      price: product?.price,
-      image: product?.mainImage,
-      amount: quantityCount,
-    });
+  id: product?.id.toString(),
+  title: product?.title,
+  price: product?.price,
+  amount: quantityCount,
+  mainImage: product?.mainImage,
+  image: product?.mainImage, // ✅ set same as mainImage for now
+  name: product?.title,      // ✅ set same as title for now
+});
+
     calculateTotals();
     toast.success("Product added to the cart");
   };

@@ -7,12 +7,15 @@ export type ProductInCart = {
   price: number;
   image: string;
   amount: number;
+  mainImage: string;
+  name: string;
 };
 
 export type State = {
   products: ProductInCart[];
   allQuantity: number;
   total: number;
+  hasHydrated: boolean;
 };
 
 export type Actions = {
@@ -21,14 +24,19 @@ export type Actions = {
   updateCartAmount: (id: string, quantity: number) => void;
   calculateTotals: () => void;
   clearCart: () => void;
+  setHasHydrated: (value: boolean) => void;
 };
 
 export const useProductStore = create<State & Actions>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       products: [],
       allQuantity: 0,
       total: 0,
+      hasHydrated: false,
+      setHasHydrated: (value: boolean) => {
+        set({ hasHydrated: value });
+      },
       addToCart: (newProduct) => {
         set((state) => {
           const cartItem = state.products.find(
@@ -37,34 +45,28 @@ export const useProductStore = create<State & Actions>()(
           if (!cartItem) {
             return { products: [...state.products, newProduct] };
           } else {
-            state.products.map((product) => {
-              if (product.id === cartItem.id) {
-                product.amount += newProduct.amount;
-              }
-            });
+            const updatedProducts = state.products.map((product) =>
+              product.id === cartItem.id
+                ? { ...product, amount: product.amount + newProduct.amount }
+                : product
+            );
+            return { products: updatedProducts };
           }
-          return { products: [...state.products] };
-        });
-      },
-      clearCart: () => {
-        set((state: any) => {
-          
-          return {
-            products: [],
-            allQuantity: 0,
-            total: 0,
-          };
         });
       },
       removeFromCart: (id) => {
+        set((state) => ({
+          products: state.products.filter((p) => p.id !== id),
+        }));
+      },
+      updateCartAmount: (id, amount) => {
         set((state) => {
-          state.products = state.products.filter(
-            (product: ProductInCart) => product.id !== id
+          const updatedProducts = state.products.map((product) =>
+            product.id === id ? { ...product, amount } : product
           );
-          return { products: state.products };
+          return { products: updatedProducts };
         });
       },
-
       calculateTotals: () => {
         set((state) => {
           let amount = 0;
@@ -73,35 +75,26 @@ export const useProductStore = create<State & Actions>()(
             amount += item.amount;
             total += item.amount * item.price;
           });
-
           return {
-            products: state.products,
             allQuantity: amount,
             total: total,
           };
         });
       },
-      updateCartAmount: (id, amount) => {
-        set((state) => {
-          const cartItem = state.products.find((item) => item.id === id);
-
-          if (!cartItem) {
-            return { products: [...state.products] };
-          } else {
-            state.products.map((product) => {
-              if (product.id === cartItem.id) {
-                product.amount = amount;
-              }
-            });
-          }
-
-          return { products: [...state.products] };
+      clearCart: () => {
+        set({
+          products: [],
+          allQuantity: 0,
+          total: 0,
         });
       },
     }),
     {
-      name: "products-storage", // name of the item in the storage (must be unique)
-      storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
+      name: "products-storage",
+      storage: createJSONStorage(() => sessionStorage),
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     }
   )
 );

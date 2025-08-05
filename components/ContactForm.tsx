@@ -1,59 +1,29 @@
-import React, { useState, useEffect } from 'react';
+"use client";
 
-// Define the type for form data
-interface FormData {
-  name: string;
-  email: string;
-  message: string;
-}
-
-const ContactForm = () => {
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    message: ''
-  });
-
-  // Define static data to send to Odoo
-  const staticData: FormData = {
-    name: "Test Name",
-    email: "test@example.com",
-    message: "This is a hardcoded test message."
-  };
-
-  // Function to send static data to Odoo
-  const sendFormDataToOdoo = async (data: FormData) => {
-    try {
-      const response = await fetch('/api/create-lead', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
-
-      if (response.ok) {
-        console.log('Lead created successfully in Odoo CRM!');
-      } else {
-        console.log('Failed to create lead');
-      }
-    } catch (error) {
-      console.error('Error creating lead:', error);
-    }
-  };
-
-  // Use useEffect to send static data as soon as the component is mounted
-  useEffect(() => {
-    console.log("Sending static data to Odoo...");
-    sendFormDataToOdoo(staticData);
-  }, []); // Empty dependency array ensures this runs only once on component mount
-
-  return (
-    <div>
-      <h1>Contact Form</h1>
-      <p>Static data has been sent to Odoo CRM on component mount.</p>
-    </div>
-  );
-};
+const ContactForm = ({ form, setForm }: any) => (
+  <section aria-labelledby="contact-info-heading">
+    <h2 id="contact-info-heading" className="text-lg font-medium text-gray-900">
+      Contact information
+    </h2>
+    {["name", "lastname", "phone", "email"].map((field) => (
+      <div className="mt-6" key={field}>
+        <label htmlFor={`${field}-input`} className="block text-sm font-medium text-gray-700">
+          {field[0].toUpperCase() + field.slice(1).replace("name", "Name")}
+        </label>
+        <div className="mt-1">
+          <input
+            type={field === "email" ? "email" : "text"}
+            id={`${field}-input`}
+            name={`${field}-input`}
+            autoComplete="text"
+            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            value={form[field]}
+            onChange={(e) => setForm({ ...form, [field]: e.target.value })}
+          />
+        </div>
+      </div>
+    ))}
+  </section>
+);
 
 export default ContactForm;
