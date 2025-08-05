@@ -1,4 +1,4 @@
-"use client";
+/*"use client";
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -75,16 +75,16 @@ const CheckoutPage = () => {
       <SectionTitle title="Checkout" path="Home | Cart | Checkout" />
 
       <main className="relative mx-auto grid max-w-screen-2xl grid-cols-1 gap-x-16 lg:grid-cols-2 lg:px-8 xl:gap-x-48">
-        {/* Order Summary Section */}
-        <section
+        {/* Order Summary Section }
+  /*      <section
           aria-labelledby="summary-heading"
           className="bg-gray-50 px-4 pb-10 pt-16 sm:px-6 lg:col-start-2 lg:row-start-1 lg:bg-transparent lg:px-0 lg:pb-16"
         >
           <OrderSummary products={products} total={total} />
         </section>
 
-        {/* Checkout Forms */}
-        <form className="px-4 pt-16 sm:px-6 lg:col-start-1 lg:row-start-1 lg:px-0">
+        {/* Checkout Forms }
+    /*    <form className="px-4 pt-16 sm:px-6 lg:col-start-1 lg:row-start-1 lg:px-0">
           <div className="mx-auto max-w-lg lg:max-w-none">
             <ContactForm form={checkoutForm} setForm={setCheckoutForm} />
             <PaymentForm form={checkoutForm} setForm={setCheckoutForm} />
@@ -98,3 +98,4 @@ const CheckoutPage = () => {
 };
 
 export default CheckoutPage;
+*/

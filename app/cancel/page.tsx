@@ -8,7 +8,7 @@ export default function CancelPage() {
       <p className="text-lg mb-6 text-center">
         It looks like you cancelled the checkout process. No payment was made.
       </p>
-      <Link href="/checkout" className="text-blue-500 underline">
+      <Link href="/cart" className="text-blue-500 underline">
         Try Again
       </Link>
     </div>
