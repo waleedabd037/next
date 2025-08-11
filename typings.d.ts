@@ -24,7 +24,8 @@ type ProductInWishlist = {
   price: number;
   image: string;
   slug: string;
-  stockAvailabillity: number;
+  stockAvailabillity: number|boolean;
+  mainImage:mainImage;
 };
 
 interface OtherImages {

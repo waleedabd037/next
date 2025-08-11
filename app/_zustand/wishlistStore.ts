@@ -1,4 +1,15 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
+
+export type ProductInWishlist = {
+  id: string;
+  title: string;
+  price: number;
+  image: string;
+  mainImage: string;
+  slug: string;
+  stockAvailabillity: number;
+};
 
 export type State = {
   wishlist: ProductInWishlist[];
@@ -11,37 +22,39 @@ export type Actions = {
   setWishlist: (wishlist: ProductInWishlist[]) => void;
 };
 
-export const useWishlistStore = create<State & Actions>((set) => ({
-  wishlist: [],
-  wishQuantity: 0,
-  addToWishlist: (product) => {
-    set((state) => {
-      const productInWishlist = state.wishlist.find(
-        (item) => product.id === item.id
-      );
+export const useWishlistStore = create<State & Actions>()(
+  persist(
+    (set) => ({
+      wishlist: [],
+      wishQuantity: 0,
 
-      if (productInWishlist === undefined) {
-        return { wishlist: [...state.wishlist, product], wishQuantity: state.wishlist.length };
-      } else {
-        return { wishlist: [...state.wishlist], wishQuantity: state.wishlist.length };
-      }
-    });
-  },
-  removeFromWishlist: (id) => {
-    set((state) => {
-      const productInWishlist = state.wishlist.find((item) => id === item.id);
+      addToWishlist: (product) => {
+        set((state) => {
+          const exists = state.wishlist.find((item) => item.id === product.id);
+          if (!exists) {
+            const newWishlist = [...state.wishlist, product];
+            return { wishlist: newWishlist, wishQuantity: newWishlist.length };
+          }
+          return state;
+        });
+      },
 
-      if (productInWishlist === undefined) {
-        return { wishlist: [...state.wishlist], wishQuantity: state.wishlist.length };
-      } else {
-        const newWishlist = state.wishlist.filter((item) => item.id !== id);
-        return { wishlist: [...newWishlist], wishQuantity: state.wishlist.length };
-      }
-    });
-  },
-  setWishlist: (wishlist: ProductInWishlist[]) => {
-    set((state) => {      
-      return { wishlist: [...wishlist], wishQuantity: wishlist.length };
-    });
-  },
-}));
+      removeFromWishlist: (id) => {
+        set((state) => {
+          const newWishlist = state.wishlist.filter((item) => item.id !== id);
+          return { wishlist: newWishlist, wishQuantity: newWishlist.length };
+        });
+      },
+
+      setWishlist: (wishlist) => {
+        set(() => ({
+          wishlist: [...wishlist],
+          wishQuantity: wishlist.length,
+        }));
+      },
+    }),
+    {
+      name: "wishlist-storage",
+    }
+  )
+);
