@@ -26,6 +26,7 @@ type ProductInWishlist = {
   slug: string;
   stockAvailabillity: number|boolean;
   mainImage:mainImage;
+  index?: number; 
 };
 
 interface OtherImages {

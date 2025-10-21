@@ -11,7 +11,6 @@ export default function WishlistPage() {
   const { wishlist, setWishlist } = useWishlistStore();
   const [loading, setLoading] = useState(true);
 
-  // Fetch wishlist by user ID
   const getWishlistByUserId = async (id: string) => {
     try {
       const res = await fetch(`${apiBaseUrl}/api/wishlist/${id}`, {
@@ -37,7 +36,6 @@ export default function WishlistPage() {
     }
   };
 
-  // Get user by email, then fetch their wishlist
   const getUserByEmail = async () => {
     if (session?.user?.email) {
       try {
@@ -82,14 +80,16 @@ export default function WishlistPage() {
       ) : (
         <div className="max-w-screen-2xl mx-auto">
           <div className="overflow-x-auto shadow-md rounded-lg">
-            <table className="table w-full text-center border">
+            <table className="table w-full text-center border wishlist-table">
               <thead className="bg-gray-100">
                 <tr>
                   <th className="text-gray-700 font-semibold">#</th>
                   <th className="text-gray-700 font-semibold">Image</th>
                   <th className="text-gray-700 font-semibold">Name</th>
                   <th className="text-gray-700 font-semibold">Stock Status</th>
-                  <th className="text-gray-700 font-semibold">Action</th>
+                  <th className="text-gray-700 font-semibold text-center whitespace-nowrap">
+                    Action
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -102,6 +102,7 @@ export default function WishlistPage() {
                     mainImage={item.mainImage}
                     slug={item.slug}
                     stockAvailabillity={item.stockAvailabillity}
+                   // index={index + 1}
                     key={nanoid()}
                   />
                 ))}

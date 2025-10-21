@@ -22,4 +22,27 @@
         transparent 40.99%
       ),
       linear-gradient(-45deg, white 50%, #3B82F6 50.99%);
+      /* Styles only for wishlist table */
+.wishlist-table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+
+.wishlist-table th,
+.wishlist-table td {
+  padding: 0; /* Tailwind padding will apply instead */
+  margin: 0;
+  vertical-align: middle;
+}
+
+.wishlist-table th {
+  text-align: center;
+}
+
+.wishlist-table td.action-cell {
+  text-align: center;
+  width: 120px; /* Fixed width for consistent alignment */
+}
+
 }
