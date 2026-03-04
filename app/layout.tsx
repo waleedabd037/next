@@ -22,6 +22,8 @@ export default async function Layout({
     <html lang="en">
       <head>
         {/* ✅ Replaces <script> tag with Next.js Script component */}
+        <meta name="ahrefs-site-verification" content="41190ba9b5e529141871a8c56f03dde144529194a88cb67105fc0e03b852b6d9">
+        </meta>
         <Script
           type="module"
           src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"

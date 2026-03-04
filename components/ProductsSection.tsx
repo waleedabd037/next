@@ -24,7 +24,7 @@ const ProductsSection = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(`${apiBaseUrl}/api/products`, {
+        const response = await fetch(`https://server-xef0.onrender.com/api/products`, {
           cache: "no-store",
         });
 
